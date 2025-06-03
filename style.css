@@ -1,0 +1,189 @@
+
+body {
+    font-family: sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.toneplayer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 500px;
+}
+
+.top-row, .middle-row, .bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.top-row label {
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.play-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+}
+
+input[type="range"] {
+    width: 100%;
+    appearance: none;
+    background: #ccc;
+    height: 6px;
+    border-radius: 3px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #555;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+canvas {
+    width: 100%;
+    height: 60px;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.bottom-row button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    font-size: 14px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.bottom-row button svg {
+    margin-right: 6px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.field:last-child {
+    margin-right: 0;
+}
+
+select, input[type="number"] {
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.middle-row span {
+    font-size: 12px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.instrument-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1em;
+    margin-bottom: 15px;
+}
+
+.instrument-wrapper {
+    display: flex;
+    flex-direction: column;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+
+.top-row {
+    margin-bottom: 15px;
+}
+
+
+.field input, .instrument-wrapper select {
+    font-size: 0.9em;
+    padding: 4px;
+}
+
+/* Uniformise les champs input et select pour qu'ils aient le même style */
+.instrument-wrapper select,
+.field input[type="number"] {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.instrument-wrapper label,
+.field label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #555;
+}
+
+.middle-row span {
+    font-size: 11px;
+    color: #666;
+}
+
+.instrument-wrapper {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.tempo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tempo-wrapper svg {
+    flex-shrink: 0;
+    width: 23px;
+    height: 23px;
+    stroke: #000;
+}
+
+.tempo-wrapper input[type="number"] {
+    width: 50px;
+    font-size: 13px;
+    padding: 4px;
+}

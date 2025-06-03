@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TonePlayer Refined</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://unpkg.com/@tonejs/midi@2.0.28/build/Midi.js"></script>
+    <script src="./TonePlayer.js"></script>
+</head>
+<body>
+    <div id="player"></div>
+    <script>
+        const projectData = {
+            bpm: 100,
+            sequences: [
+                {
+                    synth: { type: 'Synth' },
+                    notes: [
+                        { note: 'C4', time: 0, duration: '4n' },
+                        { note: 'E4', time: '0:1', duration: '4n' },
+                        { note: 'G4', time: '0:2', duration: '4n' }
+                    ]
+                },
+                {
+                    synth: { type: 'FMSynth' },
+                    notes: [
+                        { note: 'G3', time: 0, duration: '2n' },
+                        { note: 'A3', time: '0:2', duration: '2n' }
+                    ]
+                }
+            ]
+        };
+
+        const player = new TonePlayer('player', projectData);
+    </script>
+</body>
+</html>
