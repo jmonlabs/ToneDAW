@@ -182,7 +182,8 @@ class TonePlayer {
             if (selectedType === 'Sampler') {
                 synth = new Tone.Sampler(seq.synth).connect(this.analyser).toDestination();
             } else if (selectedType === 'Custom') {
-                synth = yourCustomSynthFactory(seq); // ou ton implémentation
+                // Use the built-in factory for custom synth definitions
+                synth = this.createCustomSynth(seq.synth);
                 synth.connect(this.analyser).toDestination();
             } else {
                 synth = new Tone[selectedType]().connect(this.analyser).toDestination();
