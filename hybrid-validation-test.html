@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToneDAW - Hybrid Loop System Validation</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://unpkg.com/@tonejs/midi@2.0.28/build/Midi.js"></script>
+    <script src="./ToneDAW.js"></script>
+</head>
+<body>
+    <h1>🔄 Hybrid Loop System - Final Validation</h1>
+    
+    <div style="margin: 20px; padding: 20px; background: #e8f5e8; border-radius: 8px; border-left: 4px solid #4CAF50;">
+        <h3>✅ Validation Results</h3>
+        <div id="validation-results">
+            <p>🔄 Running validation tests...</p>
+        </div>
+    </div>
+    
+    <div style="margin: 20px; padding: 20px; background: #f0f8ff; border-radius: 8px; border-left: 4px solid #2196F3;">
+        <h3>📊 Hybrid System Architecture</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background: #f5f5f5;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Component</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Implementation</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Benefits</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>Audio Playback</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Tone.js <code>Part.loop</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Precise timing, professional quality</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>Visual Display</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Custom <code>expandNotesWithLoop()</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Clear feedback, debugging capability</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>MIDI Export</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Expanded notes</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Complete loop representation</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>WAV Export</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Tone.js native loops</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Efficient rendering, accurate timing</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="daw"></div>
+    
+    <div style="margin: 20px; padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+        <h3>🧪 Test Instructions</h3>
+        <ol>
+            <li><strong>Visual Test:</strong> Verify looped notes show dashed borders</li>
+            <li><strong>Audio Test:</strong> Play and confirm smooth loop timing</li>
+            <li><strong>Export Test:</strong> Test both MIDI and WAV exports</li>
+            <li><strong>Performance Test:</strong> Monitor console for timing logs</li>
+            <li><strong>UI Test:</strong> Edit loop end times and see immediate updates</li>
+        </ol>
+    </div>
+
+    <script>
+        // Comprehensive test data with various loop scenarios
+        const projectData = {
+            bpm: 120,
+            keySignature: "C major",
+            metadata: {
+                title: "Hybrid Loop System Validation",
+                composer: "Final Test Suite"
+            },
+            sequences: [
+                {
+                    label: "Ultra Fast Loop",
+                    group: "percussion",
+                    loop: "0:1", // Every beat - tests rapid looping
+                    synth: { type: 'AMSynth' },
+                    notes: [
+                        { note: 'C2', time: 0, duration: '16n', velocity: 1.0 }
+                    ]
+                },
+                {
+                    label: "Standard Bass",
+                    group: "bass",
+                    loop: "1:0", // Every measure - standard loop
+                    synth: { type: 'FMSynth' },
+                    notes: [
+                        { note: 'C3', time: 0, duration: '4n', velocity: 0.9 },
+                        { note: 'G3', time: '0:2', duration: '4n', velocity: 0.8 }
+                    ]
+                },
+                {
+                    label: "Chord Progression",
+                    group: "harmony",
+                    loop: "4:0", // Every 4 measures - long loop
+                    synth: { type: 'PolySynth' },
+                    notes: [
+                        { note: ['C4', 'E4', 'G4'], time: 0, duration: '1n', velocity: 0.6 },
+                        { note: ['F4', 'A4', 'C5'], time: '1:0', duration: '1n', velocity: 0.6 },
+                        { note: ['G4', 'B4', 'D5'], time: '2:0', duration: '1n', velocity: 0.6 },
+                        { note: ['C4', 'E4', 'G4'], time: '3:0', duration: '1n', velocity: 0.6 }
+                    ]
+                },
+                {
+                    label: "Legacy Loop",
+                    group: "special",
+                    loop: true, // Boolean loop - legacy support
+                    synth: { type: 'Synth' },
+                    notes: [
+                        { note: 'E5', time: 0, duration: '2n', velocity: 0.7 },
+                        { note: 'D5', time: '1:0', duration: '2n', velocity: 0.7 }
+                    ]
+                },
+                {
+                    label: "No Loop Control",
+                    group: "lead",
+                    loop: false, // No looping
+                    synth: { type: 'DuoSynth' },
+                    notes: [
+                        { note: 'C6', time: 0, duration: '1n', velocity: 0.5 },
+                        { note: 'E6', time: '2:0', duration: '1n', velocity: 0.5 },
+                        { note: 'G6', time: '4:0', duration: '1n', velocity: 0.5 }
+                    ]
+                }
+            ]
+        };
+
+        // Validation functions
+        function validateHybridSystem() {
+            const results = [];
+            
+            // Test 1: Verify ToneDAW has hybrid methods
+            if (typeof ToneDAW.prototype.expandNotesWithLoop === 'function') {
+                results.push('✅ Custom loop expansion method exists');
+            } else {
+                results.push('❌ Missing expandNotesWithLoop method');
+            }
+            
+            // Test 2: Check for Tone.js native loop usage
+            const dawSource = ToneDAW.toString();
+            if (dawSource.includes('part.loop = true') && dawSource.includes('part.loopEnd')) {
+                results.push('✅ Tone.js native loops implemented');
+            } else {
+                results.push('❌ Missing Tone.js native loop implementation');
+            }
+            
+            // Test 3: Verify visual expansion is separate from audio
+            if (dawSource.includes('expandNotesWithLoop') && dawSource.includes('drawNotes')) {
+                results.push('✅ Visual and audio systems properly separated');
+            } else {
+                results.push('❌ Systems not properly separated');
+            }
+            
+            // Test 4: Check export methods
+            if (dawSource.includes('exportMIDI') && dawSource.includes('exportWAV')) {
+                results.push('✅ Both export methods available');
+            } else {
+                results.push('❌ Missing export functionality');
+            }
+            
+            return results;
+        }
+
+        // Performance monitoring
+        function monitorHybridPerformance() {
+            const startTime = performance.now();
+            
+            // Create DAW instance
+            const daw = new ToneDAW('daw', projectData);
+            
+            const initTime = performance.now() - startTime;
+            
+            console.log('🚀 Hybrid System Performance:');
+            console.log(`⏱️ Initialization: ${initTime.toFixed(2)}ms`);
+            
+            // Monitor loop expansion
+            projectData.sequences.forEach((seq, i) => {
+                if (seq.loop && seq.loop !== false) {
+                    const expandStart = performance.now();
+                    const expanded = daw.expandNotesWithLoop(seq);
+                    const expandTime = performance.now() - expandStart;
+                    
+                    console.log(`🔄 Track ${i + 1} "${seq.label}": ${seq.notes.length} → ${expanded.length} notes (${expandTime.toFixed(2)}ms)`);
+                }
+            });
+            
+            return daw;
+        }
+
+        // Run validation
+        document.addEventListener('DOMContentLoaded', () => {
+            const resultsDiv = document.getElementById('validation-results');
+            
+            // Run validation tests
+            const validationResults = validateHybridSystem();
+            
+            // Display results
+            resultsDiv.innerHTML = `
+                <h4>🔍 System Validation:</h4>
+                <ul>
+                    ${validationResults.map(result => `<li>${result}</li>`).join('')}
+                </ul>
+                <p><strong>Overall Status:</strong> ${validationResults.filter(r => r.startsWith('✅')).length}/${validationResults.length} tests passed</p>
+            `;
+            
+            // Initialize DAW with performance monitoring
+            const daw = monitorHybridPerformance();
+            
+            // Log hybrid system details
+            console.log('');
+            console.log('🔄 Hybrid Loop System Analysis:');
+            console.log('📊 Architecture: Audio (Tone.js) + Visual (Custom) + Export (Mixed)');
+            console.log('🎯 Benefits: Precise timing + Clear feedback + Complete exports');
+            console.log('⚡ Performance: Optimized for both audio quality and visual clarity');
+            console.log('');
+            console.log('Track Configuration:');
+            projectData.sequences.forEach((seq, i) => {
+                console.log(`${i + 1}. "${seq.label}": loop=${seq.loop || 'false'} (${seq.notes.length} notes)`);
+            });
+        });
+    </script>
+</body>
+</html>

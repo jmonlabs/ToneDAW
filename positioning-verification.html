@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Positioning Verification</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="TonePlayer.js"></script>
+    <script src="ToneDAW.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .daw-container {
+            margin: 20px 0;
+        }
+        .measurement-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .vertical-line {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: rgba(255, 255, 0, 0.5);
+            top: 0;
+        }
+        .time-label {
+            position: absolute;
+            top: -20px;
+            font-size: 10px;
+            color: yellow;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <h1>Note Positioning Verification Test</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Simple Loop with Clear Note Positions</h2>
+        <div id="test1-container" class="daw-container"></div>
+        <button onclick="playTest1()">Play Test 1</button>
+        <button onclick="stopTest1()">Stop Test 1</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Multiple Loops with Visual Grid</h2>
+        <div id="test2-container" class="daw-container" style="position: relative;">
+            <div class="measurement-lines" id="grid-lines"></div>
+        </div>
+        <button onclick="playTest2()">Play Test 2</button>
+        <button onclick="stopTest2()">Stop Test 2</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <div id="console-output" style="background: #000; padding: 10px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const consoleOutput = document.getElementById('console-output');
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
+            consoleOutput.innerHTML += message + '<br>';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+
+        let daw1, daw2;
+
+        async function initializeTest1() {
+            await Tone.start();
+            
+            daw1 = new ToneDAW();
+            daw1.setContainer(document.getElementById('test1-container'));
+            
+            // Simple pattern with clear timing
+            const track = {
+                name: 'Test Track 1',
+                instrument: 'synth',
+                seq: {
+                    notes: [
+                        { time: '0:0', note: 'C4', duration: '8n' },
+                        { time: '0:2', note: 'D4', duration: '8n' },
+                        { time: '1:0', note: 'E4', duration: '8n' },
+                        { time: '1:2', note: 'F4', duration: '8n' }
+                    ],
+                    duration: '2m', // 2 measures = 8 beats at 4/4
+                    loop: true,
+                    loopDuration: '4m' // Total duration includes 2 loops
+                }
+            };
+            
+            console.log('Test 1 - Adding track with loop settings:');
+            console.log('Original duration:', track.seq.duration);
+            console.log('Loop duration:', track.seq.loopDuration);
+            
+            daw1.addTrack(track);
+            daw1.render();
+        }
+
+        async function initializeTest2() {
+            await Tone.start();
+            
+            daw2 = new ToneDAW();
+            daw2.setContainer(document.getElementById('test2-container'));
+            
+            // Create visual grid
+            const container = document.getElementById('test2-container');
+            const gridLines = document.getElementById('grid-lines');
+            
+            // Add measurement lines every second for 10 seconds
+            for (let i = 0; i <= 10; i++) {
+                const line = document.createElement('div');
+                line.className = 'vertical-line';
+                line.style.left = (i * 60) + 'px'; // Assuming 60 pixels per second
+                
+                const label = document.createElement('div');
+                label.className = 'time-label';
+                label.textContent = i + 's';
+                label.style.left = (i * 60) + 'px';
+                
+                gridLines.appendChild(line);
+                gridLines.appendChild(label);
+            }
+            
+            const track = {
+                name: 'Test Track 2',
+                instrument: 'synth',
+                seq: {
+                    notes: [
+                        { time: '0:0', note: 'C4', duration: '4n' },
+                        { time: '0:3', note: 'G4', duration: '4n' },
+                        { time: '1:1', note: 'E4', duration: '4n' }
+                    ],
+                    duration: '2m',
+                    loop: true,
+                    loopDuration: '6m' // 3 loops total
+                }
+            };
+            
+            console.log('Test 2 - Adding track with 3 loops:');
+            daw2.addTrack(track);
+            daw2.render();
+        }
+
+        function playTest1() {
+            if (daw1) daw1.play();
+        }
+
+        function stopTest1() {
+            if (daw1) daw1.stop();
+        }
+
+        function playTest2() {
+            if (daw2) daw2.play();
+        }
+
+        function stopTest2() {
+            if (daw2) daw2.stop();
+        }
+
+        // Initialize tests when page loads
+        window.addEventListener('load', async () => {
+            console.log('Initializing positioning verification tests...');
+            await initializeTest1();
+            await initializeTest2();
+            console.log('Tests initialized. Check note positions visually.');
+        });
+    </script>
+</body>
+</html>

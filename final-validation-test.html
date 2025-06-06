@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Final Vertical Positioning Validation</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://unpkg.com/@tonejs/midi@2.0.28/build/Midi.js"></script>
+    <script src="./ToneDAW.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .validation-result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .measurement-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .note-measurement {
+            position: absolute;
+            border: 1px dashed yellow;
+            background: rgba(255, 255, 0, 0.1);
+        }
+        .measurement-label {
+            position: absolute;
+            background: yellow;
+            color: black;
+            padding: 2px 4px;
+            font-size: 10px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Final Vertical Positioning Validation</h1>
+    
+    <div id="validation-results"></div>
+    
+    <div id="daw"></div>
+    
+    <div style="margin: 20px; padding: 15px; background: #2d2d2d; border-radius: 8px;">
+        <h3>📊 Validation Details</h3>
+        <div id="validation-details" style="font-family: monospace; font-size: 12px;"></div>
+    </div>
+
+    <script>
+        const validationData = {
+            bpm: 120,
+            keySignature: "C major",
+            metadata: {
+                title: "Final Positioning Validation",
+                composer: "Position Fix Test"
+            },
+            sequences: [
+                {
+                    label: "Track 1 - Quick Loop",
+                    group: "test",
+                    loop: "0:2", // 2 beats
+                    synth: { type: 'Synth' },
+                    notes: [
+                        { note: 'C4', time: 0, duration: '8n', velocity: 0.8 },
+                        { note: 'E4', time: '0:1', duration: '8n', velocity: 0.7 }
+                    ]
+                },
+                {
+                    label: "Track 2 - Medium Loop", 
+                    group: "test",
+                    loop: "1:0", // 1 measure
+                    synth: { type: 'FMSynth' },
+                    notes: [
+                        { note: 'F3', time: 0, duration: '4n', velocity: 0.9 },
+                        { note: 'A3', time: '0:2', duration: '4n', velocity: 0.8 }
+                    ]
+                },
+                {
+                    label: "Track 3 - Long Loop",
+                    group: "test", 
+                    loop: "2:0", // 2 measures
+                    synth: { type: 'AMSynth' },
+                    notes: [
+                        { note: 'G4', time: 0, duration: '2n', velocity: 0.7 },
+                        { note: 'B4', time: '1:0', duration: '2n', velocity: 0.6 }
+                    ]
+                }
+            ]
+        };
+
+        let validationResults = [];
+
+        function validateVerticalAlignment() {
+            console.log('🔍 Starting vertical alignment validation...');
+            
+            const daw = new ToneDAW('daw', validationData);
+            
+            // Wait for rendering to complete
+            setTimeout(() => {
+                validationResults = [];
+                
+                // Check each track
+                validationData.sequences.forEach((seq, trackIndex) => {
+                    console.log(`\n📊 Validating Track ${trackIndex + 1}: "${seq.label}"`);
+                    
+                    const expandedNotes = daw.expandNotesWithLoop(seq);
+                    const originalNotes = expandedNotes.filter(n => !n.isLooped);
+                    const loopedNotes = expandedNotes.filter(n => n.isLooped);
+                    
+                    console.log(`  Original notes: ${originalNotes.length}`);
+                    console.log(`  Looped notes: ${loopedNotes.length}`);
+                    
+                    // Find the actual DOM elements
+                    const trackContainer = document.querySelectorAll('.daw-track-container')[trackIndex];
+                    const noteBlocks = trackContainer.querySelectorAll('.daw-note-block');
+                    
+                    if (noteBlocks.length === 0) {
+                        validationResults.push({
+                            track: trackIndex + 1,
+                            status: 'error',
+                            message: 'No note blocks found in DOM'
+                        });
+                        return;
+                    }
+                    
+                    // Check vertical positioning consistency
+                    const topPositions = Array.from(noteBlocks).map(block => {
+                        const computedStyle = window.getComputedStyle(block);
+                        return parseFloat(computedStyle.top);
+                    });
+                    
+                    const uniqueTopPositions = [...new Set(topPositions)];
+                    
+                    console.log(`  Note block top positions: [${topPositions.join(', ')}]`);
+                    console.log(`  Unique positions: [${uniqueTopPositions.join(', ')}]`);
+                    
+                    if (uniqueTopPositions.length === 1) {
+                        validationResults.push({
+                            track: trackIndex + 1,
+                            status: 'success',
+                            message: `All ${noteBlocks.length} notes aligned at top: ${uniqueTopPositions[0]}px`,
+                            details: {
+                                originalCount: originalNotes.length,
+                                loopedCount: loopedNotes.length,
+                                totalBlocks: noteBlocks.length,
+                                topPosition: uniqueTopPositions[0]
+                            }
+                        });
+                    } else {
+                        validationResults.push({
+                            track: trackIndex + 1,
+                            status: 'error',
+                            message: `Misaligned notes! Found ${uniqueTopPositions.length} different top positions: [${uniqueTopPositions.join(', ')}]px`,
+                            details: {
+                                originalCount: originalNotes.length,
+                                loopedCount: loopedNotes.length,
+                                totalBlocks: noteBlocks.length,
+                                topPositions: topPositions
+                            }
+                        });
+                    }
+                    
+                    // Validate time conversion consistency
+                    expandedNotes.forEach((note, i) => {
+                        const startTime = typeof note.time === 'number' ? note.time : Tone.Time(note.time).toSeconds();
+                        const expectedLeft = startTime * daw.pixelsPerSecond;
+                        
+                        if (i < noteBlocks.length) {
+                            const actualLeft = parseFloat(window.getComputedStyle(noteBlocks[i]).left);
+                            const timeDiff = Math.abs(expectedLeft - actualLeft);
+                            
+                            console.log(`    Note ${i}: time=${note.time} → startTime=${startTime}s → expected=${expectedLeft}px, actual=${actualLeft}px (diff=${timeDiff.toFixed(1)}px)`);
+                        }
+                    });
+                });
+                
+                displayValidationResults();
+            }, 500); // Give time for DOM rendering
+        }
+
+        function displayValidationResults() {
+            const resultsContainer = document.getElementById('validation-results');
+            const detailsContainer = document.getElementById('validation-details');
+            
+            const successCount = validationResults.filter(r => r.status === 'success').length;
+            const errorCount = validationResults.filter(r => r.status === 'error').length;
+            
+            let summaryHTML = '';
+            if (errorCount === 0) {
+                summaryHTML = `<div class="validation-result success">
+                    <h3>✅ All Tracks Pass Validation!</h3>
+                    <p>All ${successCount} tracks have properly aligned vertical positioning.</p>
+                    <p><strong>Fix Status:</strong> WORKING CORRECTLY</p>
+                </div>`;
+            } else {
+                summaryHTML = `<div class="validation-result error">
+                    <h3>❌ Validation Issues Found</h3>
+                    <p>${errorCount} track(s) have positioning issues, ${successCount} track(s) are correct.</p>
+                    <p><strong>Fix Status:</strong> NEEDS ATTENTION</p>
+                </div>`;
+            }
+            
+            resultsContainer.innerHTML = summaryHTML;
+            
+            // Detailed results
+            let detailsHTML = '<h4>Detailed Results:</h4>';
+            validationResults.forEach(result => {
+                const icon = result.status === 'success' ? '✅' : '❌';
+                detailsHTML += `
+                    <div style="margin: 10px 0; padding: 8px; background: ${result.status === 'success' ? '#1e4d2b' : '#4d1e1e'}; border-radius: 4px;">
+                        ${icon} <strong>Track ${result.track}:</strong> ${result.message}
+                `;
+                if (result.details) {
+                    detailsHTML += `<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;📊 Original: ${result.details.originalCount}, Looped: ${result.details.loopedCount}, Total DOM: ${result.details.totalBlocks}
+                    `;
+                    if (result.details.topPosition !== undefined) {
+                        detailsHTML += `<br>&nbsp;&nbsp;&nbsp;&nbsp;📍 Position: ${result.details.topPosition}px`;
+                    }
+                }
+                detailsHTML += `</div>`;
+            });
+            
+            detailsContainer.innerHTML = detailsHTML;
+            
+            console.log('\n🎯 Validation Summary:');
+            console.log(`✅ Success: ${successCount} tracks`);
+            console.log(`❌ Errors: ${errorCount} tracks`);
+            console.log(errorCount === 0 ? '🎉 ALL TESTS PASSED!' : '⚠️  Some issues found');
+        }
+
+        // Run validation when page loads
+        window.addEventListener('load', () => {
+            console.log('🚀 Initializing final positioning validation...');
+            validateVerticalAlignment();
+        });
+    </script>
+</body>
+</html>

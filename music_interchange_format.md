@@ -32,7 +32,7 @@ Each sequence represents one instrument track. All sequences play in sync.
 {
   "label": "Melody",
   "group": "strings",
-  "loop": true,
+  "loop": "1:0",
   "synth": { "type": "Synth" },
   "notes": [ ... ]
 }
@@ -42,9 +42,17 @@ Each sequence represents one instrument track. All sequences play in sync.
 
 * `label`: *(string)* Name for display in the UI.
 * `group`: *(string)* Optional logical grouping (e.g., "bass", "lead").
-* `loop`: *(bool)* Whether the part should loop.
+* `loop`: *(string|boolean|false)* Loop end time in Tone.js notation (e.g., "0:4", "1:0") or boolean for legacy support.
 * `synth`: *(object)* Description of the instrument (see below).
 * `notes`: *(array)* List of note events.
+
+### Loop Field Options
+
+* `"0:4"`: Loop every 4 beats (2 seconds at 120 BPM)
+* `"1:0"`: Loop every 1 measure (2 seconds at 120 BPM)  
+* `"2:0"`: Loop every 2 measures (4 seconds at 120 BPM)
+* `true`: Loop at the end of the note sequence (legacy)
+* `false` or omitted: No looping
 
 ---
 
@@ -152,7 +160,7 @@ Tone.js will use the closest available sample and pitch-shift it when needed.
     {
       "label": "Lead",
       "synth": { "type": "Synth" },
-      "loop": true,
+      "loop": "1:0",
       "notes": [
         { "time": 0, "note": "C4", "duration": "4n" },
         { "time": "0:2", "note": ["E4", "G4"], "duration": "2n", "velocity": 0.8 }

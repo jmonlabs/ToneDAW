@@ -21,27 +21,53 @@
     </p>
     <script>
         const projectData = {
-            bpm: 100,
+            bpm: 120,
+            keySignature: "C major",
+            metadata: {
+                title: "Demo Composition",
+                composer: "ToneDAW Demo"
+            },
             sequences: [
                 {
+                    label: "Lead Melody",
+                    group: "lead",
+                    loop: "1:0", // Loop every measure
                     synth: { type: 'Synth' },
                     notes: [
-                        { note: 'C4', time: 0, duration: '4n' },
-                        { note: 'E4', time: '0:1', duration: '4n' },
-                        { note: 'G4', time: '0:2', duration: '4n' }
+                        { note: 'C4', time: 0, duration: '4n', velocity: 0.8 },
+                        { note: 'E4', time: '0:1', duration: '4n', velocity: 0.7 },
+                        { note: 'G4', time: '0:2', duration: '4n', velocity: 0.9 },
+                        { note: ['C4', 'E4', 'G4'], time: '0:3', duration: '4n', velocity: 0.6 }
                     ]
                 },
                 {
+                    label: "Bass Line",
+                    group: "bass",
+                    loop: "2:0", // Loop every 2 measures
                     synth: { type: 'FMSynth' },
                     notes: [
-                        { note: 'G3', time: 0, duration: '2n' },
-                        { note: 'A3', time: '0:2', duration: '2n' }
+                        { note: 'C3', time: 0, duration: '2n', velocity: 0.9 },
+                        { note: 'F3', time: '0:2', duration: '2n', velocity: 0.8 },
+                        { note: 'G3', time: '1:0', duration: '2n', velocity: 0.9 },
+                        { note: 'C3', time: '1:2', duration: '2n', velocity: 0.7 }
+                    ]
+                },
+                {
+                    label: "Percussion",
+                    group: "drums",
+                    loop: "0:4", // Loop every 4 beats
+                    synth: { type: 'Synth' },
+                    notes: [
+                        { note: 'C2', time: 0, duration: '8n', velocity: 1.0 },
+                        { note: 'C2', time: '0:1', duration: '8n', velocity: 0.6 },
+                        { note: 'C2', time: '0:2', duration: '8n', velocity: 1.0 },
+                        { note: 'C2', time: '0:3', duration: '8n', velocity: 0.6 }
                     ]
                 }
             ]
         };
 
-        const player = new TonePlayer('player', projectData);
+        //const player = new TonePlayer('player', projectData);
         const daw = new ToneDAW('daw', projectData);
     </script>
 </body>
