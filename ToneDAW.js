@@ -93,21 +93,30 @@ class ToneDAW {
         tempoWrapper.appendChild(tempoIcon);
         tempoWrapper.appendChild(this.bpmInput);
 
-        // Loop global
+        // Loop global (styled like M/S buttons)
         const globalLoopWrapper = document.createElement('div');
         globalLoopWrapper.className = 'global-loop-wrapper';
         const globalLoopLabel = document.createElement('label');
+        globalLoopLabel.className = 'mute-solo-button active'; // Start as active
         this.globalLoop = document.createElement('input');
         this.globalLoop.type = 'checkbox';
         this.globalLoop.checked = true;
         this.globalLoop.onchange = () => {
+            // Toggle active class
+            if (this.globalLoop.checked) {
+                globalLoopLabel.classList.add('active');
+            } else {
+                globalLoopLabel.classList.remove('active');
+            }
             this.transport.loop = this.globalLoop.checked;
             if (this.globalLoop.checked) {
                 this.transport.loopEnd = this.getTotalDuration();
             }
         };
+        const globalLoopSpan = document.createElement('span');
+        globalLoopSpan.textContent = 'L';
         globalLoopLabel.appendChild(this.globalLoop);
-        globalLoopLabel.appendChild(document.createTextNode(' Global Loop'));
+        globalLoopLabel.appendChild(globalLoopSpan);
         globalLoopWrapper.appendChild(globalLoopLabel);
 
         // Timeline controls
@@ -136,11 +145,6 @@ class ToneDAW {
         this.trackArea.className = 'daw-track-area';
         this.container.appendChild(this.trackArea);
 
-        // Ligne de progression
-        this.progressLine = document.createElement('div');
-        this.progressLine.className = 'daw-progress-line';
-        this.trackArea.appendChild(this.progressLine);
-
         // Types de synthétiseurs disponibles
         const synthTypes = ['Synth', 'AMSynth', 'FMSynth', 'DuoSynth', 'Sampler'];
         if (this.projectData.sequences.some(seq => seq.synth.type === 'Custom')) {
@@ -156,64 +160,77 @@ class ToneDAW {
             const trackHeader = document.createElement('div');
             trackHeader.className = 'daw-track-header';
 
-            // Nom de la track
-            const trackName = document.createElement('div');
-            trackName.className = 'track-name';
-            trackName.textContent = seq.label || `Track ${index + 1}`;
+            // Three-column row inside header
+            const headerRow = document.createElement('div');
+            headerRow.className = 'daw-track-header-row';
 
-            // Sélecteur de synthétiseur
-            const synthWrapper = document.createElement('div');
-            synthWrapper.className = 'synth-wrapper';
-            const synthLabel = document.createElement('label');
-            synthLabel.textContent = 'Synth:';
-            const synthSelect = document.createElement('select');
-            synthTypes.forEach(type => {
-                const option = document.createElement('option');
-                option.value = type;
-                option.textContent = type;
-                option.selected = seq.synth.type === type;
-                synthSelect.appendChild(option);
-            });
-            synthSelect.onchange = () => this.setupAudio();
-            synthWrapper.appendChild(synthLabel);
-            synthWrapper.appendChild(synthSelect);
-
-            // Contrôles de track
-            const trackControls = document.createElement('div');
-            trackControls.className = 'track-controls';
+            // Track name section (with M/S buttons underneath)
+            const trackNameSection = document.createElement('div');
+            trackNameSection.className = 'track-name-section';
+            
+            const trackTitle = document.createElement('div');
+            trackTitle.className = 'track-title';
+            trackTitle.textContent = seq.label || `Track ${index + 1}`;
+            
+            // Mute and Solo buttons (horizontal layout)
+            const muteSoloButtons = document.createElement('div');
+            muteSoloButtons.className = 'mute-solo-buttons';
 
             // Mute
-            const muteWrapper = document.createElement('div');
-            muteWrapper.className = 'control-wrapper';
             const muteLabel = document.createElement('label');
+            muteLabel.className = 'mute-solo-button';
             const muteCheckbox = document.createElement('input');
             muteCheckbox.type = 'checkbox';
-            muteCheckbox.onchange = () => this.updateTrackStates();
+            muteCheckbox.onchange = () => {
+                // Toggle active class
+                if (muteCheckbox.checked) {
+                    muteLabel.classList.add('active');
+                } else {
+                    muteLabel.classList.remove('active');
+                }
+                this.updateTrackStates();
+            };
+            const muteSpan = document.createElement('span');
+            muteSpan.textContent = 'M';
             muteLabel.appendChild(muteCheckbox);
-            muteLabel.appendChild(document.createTextNode(' Mute'));
-            muteWrapper.appendChild(muteLabel);
+            muteLabel.appendChild(muteSpan);
 
             // Solo
-            const soloWrapper = document.createElement('div');
-            soloWrapper.className = 'control-wrapper';
             const soloLabel = document.createElement('label');
+            soloLabel.className = 'mute-solo-button';
             const soloCheckbox = document.createElement('input');
             soloCheckbox.type = 'checkbox';
-            soloCheckbox.onchange = () => this.updateTrackStates();
+            soloCheckbox.onchange = () => {
+                // Toggle active class
+                if (soloCheckbox.checked) {
+                    soloLabel.classList.add('active');
+                } else {
+                    soloLabel.classList.remove('active');
+                }
+                this.updateTrackStates();
+            };
+            const soloSpan = document.createElement('span');
+            soloSpan.textContent = 'S';
             soloLabel.appendChild(soloCheckbox);
-            soloLabel.appendChild(document.createTextNode(' Solo'));
-            soloWrapper.appendChild(soloLabel);
+            soloLabel.appendChild(soloSpan);
 
-            // Loop End Time
-            const loopWrapper = document.createElement('div');
-            loopWrapper.className = 'control-wrapper loop-wrapper';
-            const loopLabel = document.createElement('label');
-            loopLabel.textContent = 'Loop End: ';
+            muteSoloButtons.appendChild(muteLabel);
+            muteSoloButtons.appendChild(soloLabel);
+            
+            trackNameSection.appendChild(trackTitle);
+            trackNameSection.appendChild(muteSoloButtons);
+
+            // Track controls section (loop + synth stacked vertically)
+            const trackControlsSection = document.createElement('div');
+            trackControlsSection.className = 'track-controls-section';
+
+            // Loop controls section
+            const loopSection = document.createElement('div');
+            loopSection.className = 'loop-section';
             const loopInput = document.createElement('input');
             loopInput.type = 'text';
-            loopInput.placeholder = 'e.g. 0:4, 1:0';
-            loopInput.style.width = '60px';
-            loopInput.style.fontSize = '11px';
+            loopInput.placeholder = 'loops at: 0:4, 1:0...';
+            loopInput.style.color = '#666';
             loopInput.value = seq.loop && seq.loop !== true ? seq.loop : '';
             loopInput.onchange = () => {
                 // Update the sequence loop setting
@@ -225,18 +242,38 @@ class ToneDAW {
                 this.setupAudio();
                 this.drawNotes();
             };
-            loopWrapper.appendChild(loopLabel);
-            loopWrapper.appendChild(loopInput);
+            loopSection.appendChild(loopInput);
 
-            trackControls.append(muteWrapper, soloWrapper, loopWrapper);
+            // Sélecteur de synthétiseur
+            const synthWrapper = document.createElement('div');
+            synthWrapper.className = 'synth-wrapper';
+            const synthSelect = document.createElement('select');
+            synthTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                option.selected = seq.synth.type === type;
+                synthSelect.appendChild(option);
+            });
+            synthSelect.onchange = () => this.setupAudio();
+            synthWrapper.appendChild(synthSelect);
 
-            trackHeader.append(trackName, synthWrapper, trackControls);
+            // Add loop and synth to controls section
+            trackControlsSection.appendChild(loopSection);
+            trackControlsSection.appendChild(synthWrapper);
+
+            // Add columns to header row
+            headerRow.append(trackNameSection, trackControlsSection);
+            trackHeader.appendChild(headerRow);
 
             // Lane de la track (bande sonore)
             const trackLane = document.createElement('div');
             trackLane.className = 'daw-track-lane';
 
-            trackContainer.append(trackHeader, trackLane);
+            // Place header and lane side by side (not stacked)
+            trackContainer.innerHTML = '';
+            trackContainer.appendChild(trackHeader);
+            trackContainer.appendChild(trackLane);
             this.trackArea.appendChild(trackContainer);
 
             // Enregistrer les références
@@ -286,19 +323,26 @@ class ToneDAW {
 
     drawNotes() {
         const totalDuration = this.getTotalDuration();
-        // Use the actual rendered width of the track area for all tracks
-        const trackAreaWidth = this.trackArea.getBoundingClientRect().width;
+        
+        // Remove any existing progress line from track area
+        const existingProgressLine = this.trackArea.querySelector('.daw-progress-line');
+        if (existingProgressLine) {
+            existingProgressLine.remove();
+        }
 
         this.tracks.forEach(track => {
             track.lane.innerHTML = '';
+            // Use the actual rendered width of the track lane only (not including header)
+            const laneWidth = track.lane.getBoundingClientRect().width;
+
             const expandedNotes = this.expandNotesWithLoop(track.seq);
             expandedNotes.forEach(note => {
                 const noteElement = document.createElement('div');
                 noteElement.className = 'daw-note-block';
                 const startTime = typeof note.time === 'number' ? note.time : Tone.Time(note.time).toSeconds();
                 const duration = Tone.Time(note.duration).toSeconds();
-                noteElement.style.left = ((startTime / totalDuration) * trackAreaWidth) + 'px';
-                noteElement.style.width = Math.max(2, (duration / totalDuration) * trackAreaWidth) + 'px';
+                noteElement.style.left = ((startTime / totalDuration) * laneWidth) + 'px';
+                noteElement.style.width = Math.max(2, (duration / totalDuration) * laneWidth) + 'px';
 
                 // Afficher la note dans le bloc
                 const noteText = Array.isArray(note.note) ? note.note.join(',') : note.note;
@@ -316,6 +360,23 @@ class ToneDAW {
                 track.lane.appendChild(noteElement);
             });
         });
+        
+        // Create a single continuous progress line that spans all tracks
+        const progressLine = document.createElement('div');
+        progressLine.className = 'daw-progress-line';
+        progressLine.style.height = '100%';
+        
+        // Initialize progress line position to start after headers
+        if (this.tracks.length > 0) {
+            const firstTrackHeader = this.tracks[0]?.container.querySelector('.daw-track-header');
+            if (firstTrackHeader) {
+                const headerWidth = firstTrackHeader.getBoundingClientRect().width;
+                progressLine.style.left = headerWidth + 'px';
+            }
+        }
+        
+        this.trackArea.appendChild(progressLine);
+        this.progressLine = progressLine;
     }
 
     expandNotesWithLoop(seq) {
@@ -495,20 +556,48 @@ class ToneDAW {
             }
 
             const totalDuration = this.getTotalDuration();
-            // Get the actual rendered width of the track area
-            const trackAreaWidth = this.trackArea.getBoundingClientRect().width;
-
-            // Update progress line position to match note positions
-            let progressLeft = 0;
-            if (totalDuration > 0 && trackAreaWidth > 0) {
-                progressLeft = (this.transport.seconds / totalDuration) * trackAreaWidth;
+            // Get current transport time in seconds (Tone.js v14+)
+            let transportSeconds = 0;
+            try {
+                transportSeconds = Tone.Transport.seconds;
+                if (!transportSeconds || isNaN(transportSeconds)) {
+                    // Fallback: use Tone.Transport.now() if available
+                    if (typeof Tone.Transport.now === 'function') {
+                        transportSeconds = Tone.Transport.now();
+                    } else if (Tone.Transport.position) {
+                        transportSeconds = Tone.Time(Tone.Transport.position).toSeconds();
+                    }
+                }
+            } catch (e) {
+                transportSeconds = 0;
             }
-            this.progressLine.style.left = progressLeft + 'px';
+            // DEBUG: Log transportSeconds to verify animation
+            if (window && window.console) {
+                console.log('ProgressBar transportSeconds:', transportSeconds, 'Transport state:', Tone.Transport.state, 'Position:', Tone.Transport.position);
+            }
+
+            // Update the single continuous progress line position
+            if (this.progressLine && this.trackArea && this.tracks.length > 0) {
+                // Get the first track header to calculate header width
+                const firstTrackHeader = this.tracks[0]?.container.querySelector('.daw-track-header');
+                const firstTrackLane = this.tracks[0]?.lane;
+                
+                if (firstTrackHeader && firstTrackLane) {
+                    const headerWidth = firstTrackHeader.getBoundingClientRect().width;
+                    const laneWidth = firstTrackLane.getBoundingClientRect().width;
+                    
+                    let progressLeft = headerWidth; // Start after the headers
+                    if (totalDuration > 0 && laneWidth > 0) {
+                        progressLeft += (transportSeconds / totalDuration) * laneWidth;
+                    }
+                    this.progressLine.style.left = progressLeft + 'px';
+                }
+            }
 
             // Update timeline slider and time displays
-            const currentProgress = (this.transport.seconds / totalDuration) * 100;
+            const currentProgress = (transportSeconds / totalDuration) * 100;
             this.timelineSlider.value = currentProgress;
-            this.currentTimeDisplay.textContent = this.formatTime(this.transport.seconds);
+            this.currentTimeDisplay.textContent = this.formatTime(transportSeconds);
 
             this.animationId = requestAnimationFrame(loop);
         };

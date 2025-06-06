@@ -4,7 +4,7 @@ body {
     color: #333;
     display: flex;
     justify-content: center;
-    padding: 40px;
+    padding: 10px;
 }
 
 .toneplayer {
@@ -15,11 +15,18 @@ body {
     width: 500px;
 }
 
-.top-row, .middle-row, .bottom-row {
+.top-row, .middle-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
 }
 
 .top-row label {
@@ -206,7 +213,7 @@ select, input[type="number"] {
 
 .daw-title {
     margin: 0;
-    font-size: 24px;
+    font-size: 16px;
     color: #333;
     font-weight: 600;
 }
@@ -216,15 +223,10 @@ select, input[type="number"] {
     align-items: center;
 }
 
-.global-loop-wrapper label {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.global-loop-wrapper input[type="checkbox"] {
-    margin-right: 6px;
+.global-loop-wrapper .mute-solo-button {
+    width: 24px;
+    height: 20px;
+    font-size: 11px;
 }
 
 .daw-track-area {
@@ -232,195 +234,205 @@ select, input[type="number"] {
     background: #f8f8f8;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin: 20px 0;
+    margin: 20px 0 15px 0;
     overflow-x: auto;
-    min-height: 200px;
+    min-height: fit-content;
 }
 
 .daw-progress-line {
     position: absolute;
     top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #000000;
-    z-index: 100;
+    height: 100%;
+    left: 0;
+    width: 4px;
+    background: #827e7a !important;
+    z-index: 9999 !important;
     pointer-events: none;
+    opacity: 1 !important;
+    transition: none !important;
+    mix-blend-mode: normal;
 }
 
 .daw-track-container {
-    border-bottom: 1px solid #ddd;
-}
-
-.daw-track-container:last-child {
-    border-bottom: none;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .daw-track-header {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+    box-sizing: border-box;
     background: #fff;
-    border-bottom: 1px solid #eee;
-    gap: 15px;
-    flex-wrap: wrap;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
 }
 
-.track-name {
-    font-weight: 600;
-    min-width: 100px;
+/* Change layout to have track name + M/S on left, then loop + synth stacked vertically on right */
+.daw-track-header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    gap: 0;
+}
+
+/* Track name section (left column) */
+.track-name-section {
+    flex: 0 0 80px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.track-title {
+    font-size: 12px;
     color: #333;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.2;
 }
 
-.synth-wrapper {
+/* M/S buttons horizontal layout */
+.mute-solo-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.mute-solo-button {
     display: flex;
     align-items: center;
-    gap: 8px;
-}
-
-.synth-wrapper label {
-    font-size: 12px;
-    color: #666;
-    font-weight: 500;
-}
-
-.synth-wrapper select {
-    padding: 4px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 12px;
-    background: #fff;
-}
-
-.track-controls {
-    display: flex;
-    gap: 15px;
-    margin-left: auto;
-}
-
-.control-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.control-wrapper label {
-    display: flex;
-    align-items: center;
-    font-size: 12px;
+    justify-content: center;
+    width: 20px;
+    height: 16px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: bold;
     cursor: pointer;
-    color: #666;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    color: #999;
+    transition: all 0.2s ease;
 }
 
-.control-wrapper input[type="checkbox"] {
-    margin-right: 4px;
-    transform: scale(0.9);
+/* Hide the checkbox */
+.mute-solo-button input[type="checkbox"] {
+    display: none;
 }
 
-.loop-wrapper {
+/* Active state (checked) - using class-based approach */
+.mute-solo-button.active {
+    background: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+/* Hover effect */
+.mute-solo-button:hover {
+    border-color: #999;
+}
+
+/* Controls section (right column) - stack loop and synth vertically */
+.track-controls-section {
+    flex: 0 0 180px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+/* Loop section */
+.loop-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.loop-section input {
+    width: 120px !important;
+    font-size: 10px !important;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px;
+}
+
+.loop-section input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* Synth section */
+.synth-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.loop-wrapper label {
-    font-size: 10px;
-    margin-bottom: 2px;
+.synth-wrapper select {
+    width: 120px;
+    font-size: 11px;
+    padding: 2px;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
 }
 
-.loop-wrapper input[type="text"] {
-    padding: 2px 4px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 11px;
-    width: 60px;
+.control-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
+
+.control-wrapper label {
+    font-size: 11px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Old styles removed - replaced with .mute-solo-button */
 
 .daw-track-lane {
+    flex: 1 1 0;
+    min-width: 0;
+    background: #ffffff;
     position: relative;
-    background: linear-gradient(90deg, #f0f0f0 0%, #f8f8f8 100%);
-    min-height: 60px;
-    border-top: 1px solid #eee;
-    margin: 0;
+    height: 48px;
+    display: flex;
+    align-items: flex-start;
     overflow: hidden;
+    box-sizing: border-box;
 }
+
+/* Old mute-solo-stack removed */
 
 .daw-note-block {
     position: absolute;
     top: 8px;
-    height: 44px;
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-    border: 1px solid #2c6aa0;
+    height: 32px;
     border-radius: 4px;
-    color: white;
-    font-size: 10px;
-    padding: 4px 6px;
-    box-sizing: border-box;
-    white-space: nowrap;
+    background: #000000;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 32px;
     overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    transition: all 0.2s ease;
+    white-space: nowrap;
+    border: 1px solid #333;
+    z-index: 2;
 }
 
-.daw-note-block:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    background: linear-gradient(135deg, #5ba0f2 0%, #4080cd 100%);
-}
-
-/* Styling for looped/repeated note blocks */
-.daw-note-block.looped-note {
-    border-style: dashed !important;
-    opacity: 0.8 !important;
-    position: absolute !important;
-}
-
-.daw-note-block.looped-note:before {
-    content: "↻";
-    position: absolute;
-    top: -2px;
-    right: 2px;
-    font-size: 8px;
-    color: rgba(255,255,255,0.9);
-    font-weight: bold;
-}
-
-.daw-track-container:nth-child(even) .daw-note-block {
-    background: linear-gradient(135deg, #F8766D 0%, #F8766D 100%);
-    border-color: #F8766D;
-}
-
-.daw-track-container:nth-child(3n) .daw-note-block {
-    background: linear-gradient(135deg, #CD9600 0%, #CD9600 100%);
-    border-color: #CD9600;
-}
-
-.daw-track-container:nth-child(4n) .daw-note-block {
-    background: linear-gradient(135deg, #7CAE00 0%, #7CAE00 100%);
-    border-color: #7CAE00;
-}
-
-.daw-track-container:nth-child(5n) .daw-note-block {
-    background: linear-gradient(135deg, #00BE67 0%, #00BE67 100%);
-    border-color: #00BE67;
-}
-
-.daw-track-container:nth-child(6n) .daw-note-block {
-    background: linear-gradient(135deg, #00BFC4 0%, #00BFC4 100%);
-    border-color: #00BFC4;
-}
-
-.daw-track-container:nth-child(7n) .daw-note-block {
-    background: linear-gradient(135deg, #00A9FF 0%, #00A9FF 100%);
-    border-color: #00A9FF;
-}
-
-.daw-track-container:nth-child(8n) .daw-note-block {
-    background: linear-gradient(135deg, #C77CFF 0%, #C77CFF 100%);
-    border-color: #C77CFF;
-}
-
-.daw-track-container:nth-child(9n) .daw-note-block {
-    background: linear-gradient(135deg, #FF61CC 0%, #FF61CC 100%);
-    border-color: #FF61CC;
-}
