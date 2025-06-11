@@ -1,6 +1,6 @@
 # ToneDAW.js
 
-A modular web-based music sequencer built with Tone.js, featuring a complete user interface and the Tonex music interchange format for project management.
+A modular web-based music sequencer built with Tone.js, featuring a complete user interface for creating and playing musical compositions.
 
 ## Core Components
 
@@ -12,24 +12,13 @@ The main DAW class provides a complete browser-based music production environmen
 - **Export System**: High-quality MIDI and WAV export with loop expansion
 - **Transport Control**: Precise timing via Tone.js with loop management
 
-### Tonex.js - Music Interchange Format
-A powerful conversion and validation library implementing the Tonex specification:
+## Project Format Specification
 
-- **Format Conversion**: JSON to Tone.js format conversion
-- **Validation System**: Comprehensive project validation with error reporting
-- **Note Processing**: MIDI number ↔ note name conversion with chord support
-- **Loop Expansion**: Intelligent loop repetition for visualization and export
-- **Time Parsing**: Flexible time notation parsing (bars:beats, Tone.js time strings)
-
-## Tonex Format Specification
-
-Tonex (Tone Object Notation eXtended) is a JSON-based music interchange format designed for web audio applications:
+ToneDAW.js uses a JSON-based project format designed for web audio applications:
 
 ### Project Structure
 ```json
 {
-  "format": "tonex",
-  "version": "1.0",
   "bpm": 120,
   "keySignature": "C major",
   "metadata": {
@@ -45,9 +34,10 @@ Tonex (Tone Object Notation eXtended) is a JSON-based music interchange format d
 {
   "label": "Lead Melody",
   "loop": "2:0",
-  "instrument": {
-    "type": "synthesizer",
-    "engine": "fmsynth"
+  "synth": {
+    "type": "Synth",
+    "oscillator": { "type": "sine" },
+    "envelope": { "attack": 0.1, "release": 1.0 }
   },
   "notes": [...]
 }
@@ -81,9 +71,8 @@ npm test    # Run complete Node.js test suite
 ```
 ToneDAW.js/
 ├── ToneDAW.js              # Main DAW class & UI
-├── Tonex.js                # Tonex format converter
 ├── style.css               # Responsive styles
-├── porcelain.json          # Demo project (Tonex format)
+├── porcelain.json          # Demo project
 ├── index.html              # Browser interface
 ├── samples/                # Audio samples (violin library)
 └── tests/                  # Node.js test suite
@@ -93,24 +82,20 @@ ToneDAW.js/
 
 ## Configuration Examples
 
-### Basic Tonex Project
+### Basic ToneDAW Project
 ```json
 {
-  "format": "tonex",
-  "version": "1.0",
   "bpm": 85,
   "metadata": { "title": "Porcelain Dreams" },
   "sequences": [
     {
       "label": "Ambient Piano",
       "loop": "4:0",
-      "instrument": {
-        "type": "synthesizer",
-        "engine": "custom",
-        "parameters": {
-          "oscillator": { "type": "square" },
-          "envelope": { "attack": 0.01, "release": 1.0 }
-        }
+      "synth": {
+        "type": "PolySynth",
+        "voice": "FMSynth",
+        "oscillator": { "type": "square" },
+        "envelope": { "attack": 0.01, "release": 1.0 }
       },
       "notes": [
         { "note": "C4", "time": 0, "duration": "2n", "velocity": 0.8 },
@@ -123,7 +108,7 @@ ToneDAW.js/
 
 ### Supported Synthesizers
 
-#### Standard Engines
+ToneDAW.js supports various Tone.js synthesizer types:
 - **Synth**: Basic subtractive synthesis
 - **AMSynth**: Amplitude modulation synthesis
 - **FMSynth**: Frequency modulation synthesis  
@@ -131,30 +116,16 @@ ToneDAW.js/
 - **PolySynth**: Polyphonic synthesis engine
 - **Sampler**: Audio sample playback with pitch mapping
 
-#### Tonex Instrument Types
-- **synthesizer**: Configurable synthesis engines
-- **sampler**: Multi-sample instruments with automatic mapping
-- **custom**: User-defined synthesis parameters
-
 ## API Usage
 
 ### Basic Integration
 ```javascript
-// Load and convert Tonex project
+// Load project data
 const response = await fetch('./project.json');
-const tonexData = await response.json();
-const toneFormat = Tonex.convertToToneFormat(tonexData);
+const projectData = await response.json();
 
 // Initialize DAW
-const daw = new ToneDAW('container-id', toneFormat);
-```
-
-### Format Validation
-```javascript
-const validation = Tonex.validate(tonexProject);
-if (!validation.success) {
-    console.error('Validation errors:', validation.errors);
-}
+const daw = new ToneDAW('container-id', projectData);
 ```
 
 ## License

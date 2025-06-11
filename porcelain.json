@@ -1,10 +1,9 @@
 {
   "bpm": 85,
-  "keySignature": "Bb major",
-  "metadata": {
-    "title": "Porcelain Dreams - Complete Tonex Demo",
-    "composer": "ToneDAW + Tonex Architecture",
-    "description": "Démonstration complète des possibilités : synthés custom, enveloppes, effets, sampling",
+  "keySignature": "Bb major",  "metadata": {
+    "title": "Porcelain Dreams - ToneDAW Demo",
+    "composer": "ToneDAW Team",
+    "description": "Comprehensive demonstration of ToneDAW.js capabilities: custom synths, envelopes, effects, and sampling",
     "version": "1.0",
     "duration": "16:0"
   },

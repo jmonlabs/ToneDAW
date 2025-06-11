@@ -1,21 +1,21 @@
 {
   "metadata": {
-    "timestamp": "2025-06-11T02:35:17.234Z",
-    "nodeVersion": "v24.2.0",
-    "platform": "linux"
+    "timestamp": "2025-06-11T17:13:27.320Z",
+    "nodeVersion": "v23.1.0",
+    "platform": "win32"
   },
   "summary": {
     "total": 113,
-    "passed": 113,
-    "failed": 0,
-    "successRate": 100
+    "passed": 112,
+    "failed": 1,
+    "successRate": 99.1
   },
   "categories": {
     "ProjectStructure": {
       "total": 22,
-      "passed": 22,
-      "failed": 0,
-      "successRate": 100
+      "passed": 21,
+      "failed": 1,
+      "successRate": 95.5
     },
     "ToneDAWClass": {
       "total": 25,
@@ -55,7 +55,7 @@
       "passed": true,
       "message": "File found",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.220Z"
+      "timestamp": "2025-06-11T17:13:27.294Z"
     },
     {
       "test": "File style.css",
@@ -63,7 +63,7 @@
       "passed": true,
       "message": "File found",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.220Z"
+      "timestamp": "2025-06-11T17:13:27.295Z"
     },
     {
       "test": "File porcelain.json",
@@ -71,7 +71,7 @@
       "passed": true,
       "message": "File found",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.220Z"
+      "timestamp": "2025-06-11T17:13:27.295Z"
     },
     {
       "test": "File package.json",
@@ -79,7 +79,7 @@
       "passed": true,
       "message": "File found",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.220Z"
+      "timestamp": "2025-06-11T17:13:27.296Z"
     },
     {
       "test": "File index.html",
@@ -87,7 +87,7 @@
       "passed": true,
       "message": "File found",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.296Z"
     },
     {
       "test": "Project Structure",
@@ -95,7 +95,7 @@
       "passed": true,
       "message": "Valid sequence structure",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.297Z"
     },
     {
       "test": "BPM Config",
@@ -103,7 +103,7 @@
       "passed": true,
       "message": "BPM: 85",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.297Z"
     },
     {
       "test": "Metadata",
@@ -111,7 +111,7 @@
       "passed": true,
       "message": "Metadata present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.297Z"
     },
     {
       "test": "Sequence 1",
@@ -119,7 +119,7 @@
       "passed": true,
       "message": "Piano Ambiant (Custom Synth): notes=true, synth=true, loop=true",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.298Z"
     },
     {
       "test": "Sequence 1 Notes",
@@ -127,7 +127,7 @@
       "passed": true,
       "message": "Valid note structure",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.298Z"
     },
     {
       "test": "Sequence 2",
@@ -135,7 +135,7 @@
       "passed": true,
       "message": "Mélodie Lead (AM Synth): notes=true, synth=true, loop=true",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.298Z"
     },
     {
       "test": "Sequence 2 Notes",
@@ -143,7 +143,7 @@
       "passed": true,
       "message": "Valid note structure",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.298Z"
     },
     {
       "test": "Sequence 3",
@@ -151,7 +151,7 @@
       "passed": true,
       "message": "Basse Électronique (Mono Synth): notes=true, synth=true, loop=true",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.298Z"
     },
     {
       "test": "Sequence 3 Notes",
@@ -159,7 +159,7 @@
       "passed": true,
       "message": "Valid note structure",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.298Z"
     },
     {
       "test": "Sequence 4",
@@ -167,7 +167,7 @@
       "passed": true,
       "message": "Percussion Synthétique: notes=true, synth=true, loop=true",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.299Z"
     },
     {
       "test": "Sequence 4 Notes",
@@ -175,7 +175,7 @@
       "passed": true,
       "message": "Valid note structure",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.299Z"
     },
     {
       "test": "Sequence 5",
@@ -183,7 +183,7 @@
       "passed": true,
       "message": "Pad Atmosphérique (Duo Synth): notes=true, synth=true, loop=true",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.299Z"
     },
     {
       "test": "Sequence 5 Notes",
@@ -191,7 +191,7 @@
       "passed": true,
       "message": "Valid note structure",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.299Z"
     },
     {
       "test": "Project Duration",
@@ -199,7 +199,7 @@
       "passed": true,
       "message": "Project contains notes with duration",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.299Z"
     },
     {
       "test": "Documentation README.md",
@@ -207,7 +207,7 @@
       "passed": true,
       "message": "Documentation present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.300Z"
     },
     {
       "test": "Documentation LICENSE",
@@ -215,15 +215,15 @@
       "passed": true,
       "message": "Documentation present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.300Z"
     },
     {
       "test": "Samples Directory",
       "category": "ProjectStructure",
-      "passed": true,
-      "message": "Samples folder present",
+      "passed": false,
+      "message": "Samples folder missing",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.221Z"
+      "timestamp": "2025-06-11T17:13:27.300Z"
     },
     {
       "test": "Class Definition",
@@ -231,7 +231,7 @@
       "passed": true,
       "message": "ToneDAW class defined",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.225Z"
+      "timestamp": "2025-06-11T17:13:27.303Z"
     },
     {
       "test": "Constructor",
@@ -239,7 +239,7 @@
       "passed": true,
       "message": "Constructor present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.225Z"
+      "timestamp": "2025-06-11T17:13:27.303Z"
     },
     {
       "test": "Method buildUI",
@@ -247,7 +247,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.225Z"
+      "timestamp": "2025-06-11T17:13:27.303Z"
     },
     {
       "test": "Method setupAudio",
@@ -255,7 +255,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.225Z"
+      "timestamp": "2025-06-11T17:13:27.303Z"
     },
     {
       "test": "Method drawNotes",
@@ -263,7 +263,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.225Z"
+      "timestamp": "2025-06-11T17:13:27.303Z"
     },
     {
       "test": "Method togglePlay",
@@ -271,7 +271,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.225Z"
+      "timestamp": "2025-06-11T17:13:27.304Z"
     },
     {
       "test": "Method exportMIDI",
@@ -279,7 +279,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.225Z"
+      "timestamp": "2025-06-11T17:13:27.304Z"
     },
     {
       "test": "Method expandNotesWithLoop",
@@ -287,7 +287,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.304Z"
     },
     {
       "test": "Method updateTrackStates",
@@ -295,7 +295,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.304Z"
     },
     {
       "test": "Method animate",
@@ -303,7 +303,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.305Z"
     },
     {
       "test": "Method getTotalDuration",
@@ -311,7 +311,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.305Z"
     },
     {
       "test": "Method applyLoopStyling",
@@ -319,7 +319,7 @@
       "passed": true,
       "message": "Method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.305Z"
     },
     {
       "test": "Utility _parseSimpleTime",
@@ -327,7 +327,7 @@
       "passed": true,
       "message": "Utility method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.305Z"
     },
     {
       "test": "Utility _parseSimpleDuration",
@@ -335,7 +335,7 @@
       "passed": true,
       "message": "Utility method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.305Z"
     },
     {
       "test": "Utility noteNameToMidiNote",
@@ -343,7 +343,7 @@
       "passed": true,
       "message": "Utility method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.305Z"
     },
     {
       "test": "Utility midiNoteToNoteName",
@@ -351,7 +351,7 @@
       "passed": true,
       "message": "Utility method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Utility waitForSamplersToLoad",
@@ -359,7 +359,7 @@
       "passed": true,
       "message": "Utility method present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Loop Handling",
@@ -367,7 +367,7 @@
       "passed": true,
       "message": "Loop management implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Velocity Handling",
@@ -375,7 +375,7 @@
       "passed": true,
       "message": "Velocity management implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Hatched Style Default",
@@ -383,7 +383,7 @@
       "passed": true,
       "message": "Hatched style configured by default",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Mute Solo States",
@@ -391,7 +391,7 @@
       "passed": true,
       "message": "Independent Mute/Solo states implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Note Grouping",
@@ -399,7 +399,7 @@
       "passed": true,
       "message": "Note grouping implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Short Durations",
@@ -407,7 +407,7 @@
       "passed": true,
       "message": "Short duration support (32n, 64n) implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Timeline Support",
@@ -415,7 +415,7 @@
       "passed": true,
       "message": "Graphical timeline implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.226Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Zoom Controls",
@@ -423,7 +423,7 @@
       "passed": true,
       "message": "Zoom controls implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.227Z"
+      "timestamp": "2025-06-11T17:13:27.306Z"
     },
     {
       "test": "Tone.js Integration",
@@ -431,7 +431,7 @@
       "passed": true,
       "message": "Tone.js integration detected",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Synth Synth",
@@ -439,7 +439,7 @@
       "passed": true,
       "message": "Supported",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Synth AMSynth",
@@ -447,7 +447,7 @@
       "passed": true,
       "message": "Supported",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Synth FMSynth",
@@ -455,7 +455,7 @@
       "passed": true,
       "message": "Supported",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Synth DuoSynth",
@@ -463,7 +463,7 @@
       "passed": true,
       "message": "Supported",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Synth PolySynth",
@@ -471,7 +471,7 @@
       "passed": true,
       "message": "Supported",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Synth Sampler",
@@ -479,7 +479,7 @@
       "passed": true,
       "message": "Supported",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Transport Control",
@@ -487,7 +487,7 @@
       "passed": true,
       "message": "Transport control present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Timing Parsing",
@@ -495,7 +495,7 @@
       "passed": true,
       "message": "Timing parsing implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.228Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "MIDI Support",
@@ -503,7 +503,7 @@
       "passed": true,
       "message": "MIDI note support implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.308Z"
     },
     {
       "test": "Effects Support",
@@ -511,7 +511,7 @@
       "passed": true,
       "message": "Effects support detected",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.309Z"
     },
     {
       "test": "Volume Control",
@@ -519,7 +519,7 @@
       "passed": true,
       "message": "Volume control implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.309Z"
     },
     {
       "test": "BPM Control",
@@ -527,7 +527,7 @@
       "passed": true,
       "message": "BPM control implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.309Z"
     },
     {
       "test": "Latency Handling",
@@ -535,7 +535,7 @@
       "passed": true,
       "message": "Latency management present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.309Z"
     },
     {
       "test": "Note Formats",
@@ -543,7 +543,7 @@
       "passed": true,
       "message": "Note formats supported",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.309Z"
     },
     {
       "test": "Sampling Support",
@@ -551,7 +551,7 @@
       "passed": true,
       "message": "Sampling support present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.309Z"
     },
     {
       "test": "Audio Context",
@@ -559,7 +559,7 @@
       "passed": true,
       "message": "Audio Context configuration",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.229Z"
+      "timestamp": "2025-06-11T17:13:27.310Z"
     },
     {
       "test": "UI play-button",
@@ -567,7 +567,7 @@
       "passed": true,
       "message": "Element present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "UI timeline",
@@ -575,7 +575,7 @@
       "passed": true,
       "message": "Element present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "UI track-header",
@@ -583,7 +583,7 @@
       "passed": true,
       "message": "Element present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "UI track-lane",
@@ -591,7 +591,7 @@
       "passed": true,
       "message": "Element present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "UI mute-solo-button",
@@ -599,7 +599,7 @@
       "passed": true,
       "message": "Element present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "UI note-block",
@@ -607,7 +607,7 @@
       "passed": true,
       "message": "Element present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "UI track-controls",
@@ -615,7 +615,7 @@
       "passed": true,
       "message": "Element present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "Play Control",
@@ -623,7 +623,7 @@
       "passed": true,
       "message": "Play control present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "Stop Control",
@@ -631,7 +631,7 @@
       "passed": true,
       "message": "Stop control present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.230Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "Mute Control",
@@ -639,7 +639,7 @@
       "passed": true,
       "message": "Mute control present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "Solo Control",
@@ -647,7 +647,7 @@
       "passed": true,
       "message": "Solo control present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.311Z"
     },
     {
       "test": "Zoom Control",
@@ -655,7 +655,7 @@
       "passed": true,
       "message": "Zoom control present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Independent Mute/Solo",
@@ -663,7 +663,7 @@
       "passed": true,
       "message": "Independent Mute/Solo implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Interactive Timeline",
@@ -671,7 +671,7 @@
       "passed": true,
       "message": "Interactive timeline implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Overflow Fix CSS",
@@ -679,7 +679,7 @@
       "passed": true,
       "message": "Overflow fix CSS implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Note Styles",
@@ -687,7 +687,7 @@
       "passed": true,
       "message": "Note styles present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Responsive Design",
@@ -695,7 +695,7 @@
       "passed": true,
       "message": "Responsive design present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "CSS Animations",
@@ -703,7 +703,7 @@
       "passed": true,
       "message": "CSS animations present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Event Handling",
@@ -711,7 +711,7 @@
       "passed": true,
       "message": "Event handling present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Loading Interface",
@@ -719,7 +719,7 @@
       "passed": true,
       "message": "Loading interface present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Accessibility",
@@ -727,7 +727,7 @@
       "passed": true,
       "message": "Accessibility attributes present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "Export UI",
@@ -735,7 +735,7 @@
       "passed": true,
       "message": "Export interface present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.231Z"
+      "timestamp": "2025-06-11T17:13:27.312Z"
     },
     {
       "test": "MIDI Export",
@@ -743,7 +743,7 @@
       "passed": true,
       "message": "MIDI export implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.313Z"
     },
     {
       "test": "MIDI Library",
@@ -751,7 +751,7 @@
       "passed": true,
       "message": "MIDI library integrated",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.313Z"
     },
     {
       "test": "WAV Export",
@@ -759,7 +759,7 @@
       "passed": true,
       "message": "WAV export implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.313Z"
     },
     {
       "test": "Sampling Support",
@@ -767,7 +767,7 @@
       "passed": true,
       "message": "Sampling support present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.313Z"
     },
     {
       "test": "JSON Export",
@@ -775,7 +775,7 @@
       "passed": true,
       "message": "JSON export implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.314Z"
     },
     {
       "test": "Loop Export",
@@ -783,7 +783,7 @@
       "passed": true,
       "message": "Export with loop expansion implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.314Z"
     },
     {
       "test": "Velocity Export",
@@ -791,7 +791,7 @@
       "passed": true,
       "message": "Velocity export implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.314Z"
     },
     {
       "test": "Auto Download",
@@ -799,7 +799,7 @@
       "passed": true,
       "message": "Auto download implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.314Z"
     },
     {
       "test": "File Naming",
@@ -807,7 +807,7 @@
       "passed": true,
       "message": "File naming implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.314Z"
     },
     {
       "test": "Metadata Export",
@@ -815,7 +815,7 @@
       "passed": true,
       "message": "Metadata export implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.315Z"
     },
     {
       "test": "Export Validation",
@@ -823,7 +823,7 @@
       "passed": true,
       "message": "Export validation present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.232Z"
+      "timestamp": "2025-06-11T17:13:27.315Z"
     },
     {
       "test": "Export Error Handling",
@@ -831,7 +831,7 @@
       "passed": true,
       "message": "Export error handling present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.315Z"
     },
     {
       "test": "Timestamp Export",
@@ -839,7 +839,7 @@
       "passed": true,
       "message": "Timestamp export implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.315Z"
     },
     {
       "test": "Multi-Track Export",
@@ -847,7 +847,7 @@
       "passed": true,
       "message": "Multi-track export implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.315Z"
     },
     {
       "test": "Overflow Fix",
@@ -855,7 +855,7 @@
       "passed": true,
       "message": "Track overflow fix implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.316Z"
     },
     {
       "test": "Hatched Loop Style",
@@ -863,7 +863,7 @@
       "passed": true,
       "message": "Hatched loop style enabled by default",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Velocity Transparency",
@@ -871,7 +871,7 @@
       "passed": true,
       "message": "Velocity transparency implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Unified Colors",
@@ -879,7 +879,7 @@
       "passed": true,
       "message": "Unified note colors (black)",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Independent Mute Solo",
@@ -887,7 +887,7 @@
       "passed": true,
       "message": "Independent Mute/Solo like professional DAW",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.233Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Percussion Overlap Fix",
@@ -895,7 +895,7 @@
       "passed": true,
       "message": "Percussion tile overlap fix",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Loop Style System",
@@ -903,7 +903,7 @@
       "passed": true,
       "message": "Loop style system implemented",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Short Duration Support",
@@ -911,7 +911,7 @@
       "passed": true,
       "message": "Short duration support (32n, 64n)",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Transparency Preservation",
@@ -919,7 +919,7 @@
       "passed": true,
       "message": "Transparency preservation in loop styles",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Performance Improvements",
@@ -927,7 +927,7 @@
       "passed": true,
       "message": "Performance improvements present",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.317Z"
     },
     {
       "test": "Improved Error Handling",
@@ -935,7 +935,7 @@
       "passed": true,
       "message": "Improved error handling",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.318Z"
     },
     {
       "test": "Test Structure",
@@ -943,7 +943,7 @@
       "passed": true,
       "message": "Complete test structure",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.318Z"
     },
     {
       "test": "NodeJS Migration",
@@ -951,7 +951,7 @@
       "passed": true,
       "message": "Python to Node.js test migration",
       "details": "",
-      "timestamp": "2025-06-11T02:35:17.234Z"
+      "timestamp": "2025-06-11T17:13:27.318Z"
     }
   ]
 }

@@ -2,38 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Porcelain Dreams - Architecture Test</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <title>ToneDAW.js - Music Production Demo</title>
+    <link rel="stylesheet" href="style.css">    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script src="https://unpkg.com/@tonejs/midi@2.0.28/build/Midi.js"></script>
-    <script src="./Tonex.js"></script>
     <script src="./ToneDAW.js"></script>
 </head>
 <body>
-    <div id="daw"></div>
-    <script>
-        // Test de l'architecture correcte
+    <div id="daw"></div>    <script>
+        // ToneDAW.js Demo
         async function init() {
-            console.log('🏗️ Test de l\'architecture modulaire...');
+            console.log('� ToneDAW.js: Initializing music sequencer...');
             
-            // 1. Tonex loads and converts JSON
-            console.log('📁 Tonex: Loading porcelain.json...');
+            // Load project data directly
+            console.log('📁 Loading porcelain.json...');
             const response = await fetch('./porcelain.json');
-            const jsonData = await response.json();
-            console.log('✅ Raw JSON loaded:', jsonData);
+            const projectData = await response.json();
+            console.log('✅ Project data loaded:', projectData);
             
-            // 2. Tonex converts to Tone.js format
-            console.log('🔄 Tonex: Converting to Tone.js format...');
-            const toneFormat = Tonex.convertToToneFormat(jsonData);
-            console.log('✅ Tone.js format generated:', toneFormat);
-            
-            // 3. ToneDAW reçoit le format Tone.js et affiche l'interface
+            // Initialize ToneDAW with the project data
             console.log('🎹 ToneDAW: Creating interface...');
-            const daw = new ToneDAW('daw', toneFormat);
+            const daw = new ToneDAW('daw', projectData);
             
-            console.log('🎯 Modular architecture tested successfully!');
-            console.log('   - Tonex: JSON → Tone.js conversion ✅');
-            console.log('   - ToneDAW: User interface ✅');
+            console.log('🎯 ToneDAW.js initialized successfully!');
+            console.log('   - Project data loaded ✅');
+            console.log('   - User interface created ✅');
         }
 
         window.addEventListener('load', init);
