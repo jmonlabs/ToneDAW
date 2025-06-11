@@ -1,0 +1,29 @@
+    {
+      "label": "Fixed Chord Violin",
+      "group": "strings",
+      "loop": "4:0",
+      "synth": {
+        "type": "Sampler",
+        "urls": {
+          "D#4": "./samples/355821__mtg__violin-dsharp4.wav",
+          "F#4": "./samples/356076__mtg__violin-fsharp4.wav",
+          "A#4": "./samples/355828__mtg__violin-asharp4.wav",
+          "B3": "./samples/355812__mtg__violin-b3.wav",
+          "C#5": "./samples/355829__mtg__violin-csharp5.wav",
+          "C#4": "./samples/355820__mtg__violin-csharp4.wav",
+          "F4": "./samples/356107__mtg__violin-f4.wav",
+          "G#4": "./samples/355827__mtg__violin-gsharp4.wav"
+        },
+        "sampleManipulation": {
+          "reverse": false,
+          "playbackRate": 2.5,
+          "detune": 0
+        }
+      },
+      "notes": [
+        { "note": ["D#4", "F#4", "A#4"], "time": "0:0", "duration": "1n", "velocity": 0.7 },
+        { "note": ["B3", "D#4", "F#4"], "time": "1:0", "duration": "1n", "velocity": 0.6 },
+        { "note": ["F#4", "A#4", "C#5"], "time": "2:0", "duration": "1n", "velocity": 0.65 },
+        { "note": ["C#4", "F4", "G#4"], "time": "3:0", "duration": "1n", "velocity": 0.55 }
+      ]
+    },

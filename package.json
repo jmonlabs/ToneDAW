@@ -1,0 +1,38 @@
+{
+  "name": "tonedaw-js",
+  "version": "2.0.0",
+  "description": "ToneDAW.js - Séquenceur musical modulaire avec interface utilisateur complète",
+  "main": "ToneDAW.js",
+  "scripts": {
+    "test": "node tests/index.js",
+    "test:legacy": "node test_audio_automated.js",
+    "test:python": "python3 test_audio_automated.py",
+    "test:interactive": "python3 -m http.server 8080",
+    "test:audio": "open test_audio_output.html",
+    "test:advanced": "open test_advanced_audio.html",
+    "start": "python3 -m http.server 8080",
+    "clean": "node tests/cleanup.js"
+  },
+  "devDependencies": {
+    "jsdom": "^22.1.0"
+  },
+  "keywords": [
+    "audio",
+    "music",
+    "DAW",
+    "sequencer",
+    "tone.js",
+    "testing",
+    "javascript",
+    "web-audio"
+  ],
+  "author": "ToneDAW Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonedaw/ToneDAW.js.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -142,7 +142,6 @@ select, input[type="number"] {
     padding: 4px;
 }
 
-/* Uniformise les champs input et select pour qu'ils aient le même style */
 .instrument-wrapper select,
 .field input[type="number"] {
     background-color: #fff;
@@ -200,8 +199,11 @@ select, input[type="number"] {
     padding: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    min-width: 800px;
-    max-width: 1200px;
+    width: 95vw; /* Use 95% of viewport width */
+    max-width: 1400px; /* Maximum width for very large screens */
+    min-width: 800px; /* Minimum width for usability */
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevent the DAW container itself from overflowing */
 }
 
 .daw-title-header {
@@ -235,8 +237,29 @@ select, input[type="number"] {
     border: 1px solid #ddd;
     border-radius: 8px;
     margin: 20px 0 15px 0;
-    overflow-x: auto;
+    overflow-x: auto; /* Enable horizontal scrolling for zoom */
+    overflow-y: hidden;
     min-height: fit-content;
+    max-height: 70vh; /* Prevent excessive vertical growth */
+    width: 100%; /* Use full container width */
+    box-sizing: border-box;
+}
+
+/* Track lane styling - unified definition */
+.daw-track-lane {
+    flex: 1 1 0;
+    min-width: 300px; /* Minimum width for readability */
+    background: #ffffff;
+    position: relative;
+    height: 48px;
+    display: flex;
+    align-items: flex-start;
+    overflow-x: visible; /* Let parent handle overflow */
+    overflow-y: hidden;
+    box-sizing: border-box;
+    border-left: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0; /* Important: don't shrink lanes */
 }
 
 .daw-progress-line {
@@ -258,7 +281,9 @@ select, input[type="number"] {
     flex-direction: row;
     align-items: flex-start;
     width: 100%;
+    min-width: 100%;
     box-sizing: border-box;
+    flex-shrink: 0; /* Prevent container from shrinking */
 }
 
 .daw-track-header {
@@ -404,35 +429,104 @@ select, input[type="number"] {
     gap: 4px;
 }
 
-/* Old styles removed - replaced with .mute-solo-button */
-
-.daw-track-lane {
-    flex: 1 1 0;
-    min-width: 0;
-    background: #ffffff;
-    position: relative;
-    height: 48px;
-    display: flex;
-    align-items: flex-start;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-/* Old mute-solo-stack removed */
-
 .daw-note-block {
     position: absolute;
     top: 8px;
     height: 32px;
     border-radius: 4px;
-    background: #000000;
+    background: rgba(0, 0, 0, 0.75); /* Will be overridden by velocity-based opacity */
     color: #fff;
     font-size: 12px;
     text-align: center;
     line-height: 32px;
-    overflow: hidden;
+    overflow: visible; /* Allow loop icons to show */
     white-space: nowrap;
     border: 1px solid #333;
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 2px 4px;
+}
+
+/* Enhanced styling for looped notes */
+.daw-note-block[style*="dashed"] {
+    border-color: #555; /* Slightly lighter border for dashed notes */
+    animation: loopPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes loopPulse {
+    0% { border-color: #555; }
+    100% { border-color: #777; }
+}
+
+/* Remove special percussion styling - all notes same color now */
+
+/* Timeline display styling */
+.total-time-display {
+    font-size: 0.9em;
+    color: #333;
+    min-width: 80px;
+    text-align: center;
+}
+
+.current-time-display {
+    font-size: 0.9em;
+    color: #333;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Auto-scale and zoom controls */
+.auto-scale-wrapper, .zoom-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+
+.zoom-wrapper {
+    gap: 2px;
+}
+
+.zoom-button {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    background: #444;
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.zoom-button:hover {
+    background: #555;
+}
+
+.zoom-button:active {
+    background: #666;
+}
+
+/* Help info styling */
+.help-info {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    text-align: center;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.help-info small {
+    font-size: 12px;
 }
 
