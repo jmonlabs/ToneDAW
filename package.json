@@ -1,7 +1,7 @@
 {
   "name": "tonedaw-js",
   "version": "2.0.0",
-  "description": "ToneDAW.js - Modular music sequencer with complete user interface",
+  "description": "ToneDAW.js - Generic Tone.js music sequencer tool with jmon-tone import support",
   "main": "ToneDAW.js",
   "scripts": {
     "test": "node tests/index.js",

@@ -1,7 +1,7 @@
 class ToneDAW {
     constructor(containerId, projectData, options = {}) {
         this.container = document.getElementById(containerId);
-        this.projectData = projectData;
+        this.rawProjectData = projectData; // Store original data
         this.options = options;
         this.pixelsPerSecond = 50; // Dynamic value - will be calculated (more conservative default)
         this.minPixelsPerSecond = 20; // Reduced minimum scale for long compositions
@@ -15,16 +15,60 @@ class ToneDAW {
         this.playing = false;
         this.animationId = null; // Track animation frame ID
         this.manualMuteStates = new Map(); // Store manual mute states independently from solo
+        
+        // Process project data based on format
+        this.projectData = this.processProjectData(projectData);
         this.init();
-    }
+    }    /**
+     * Process project data - Tone.js native format is primary, jmon-tone is secondary
+     * @param {Object} data - Raw project data (Tone.js objects or jmon-tone format)
+     * @returns {Object} Tone.js-compatible project data
+     */
+    processProjectData(data) {
+        // Check if data is in jmon-tone format (secondary support)
+        if (data.format === "jmonTone" || data.format === "jmon-tone") {
+            console.log('🎵 ToneDAW: jmon-tone format detected, converting to Tone.js format...');
+            
+            // Check if jmon-tone.js is available
+            if (typeof jmonTone === 'undefined') {
+                console.error('❌ jmon-tone.js not found! Please include the jmon-tone.js library for jmon-tone format support.');
+                throw new Error('jmon-tone.js library is required for jmon-tone format conversion');
+            }
+            
+            // Validate the jmon-tone data
+            const validation = jmonTone.validate(data);
+            if (!validation.success) {
+                console.warn('⚠️ jmon-tone validation warnings:', validation.warnings);
+                console.error('❌ jmon-tone validation errors:', validation.errors);
+                if (validation.errors.length > 0) {
+                    throw new Error('Invalid jmon-tone format: ' + validation.errors.join(', '));
+                }
+            }
+            
+            // Convert to Tone.js format
+            const convertedData = jmonTone.convertToToneFormat(data);
+            console.log('✅ ToneDAW: jmon-tone converted to Tone.js format');
+            return convertedData;
+        } else {
+            console.log('🎹 ToneDAW: Using native Tone.js format');
+            return data;
+        }    }
 
     /**
+     * Convert legacy synth format to jmon-tone instrument format
+     * @param {Object} synth - Legacy synth configuration    /**
      * Convert MIDI note number to note name (e.g., 60 -> "C4")
-     * Supports MIDI note numbers from 0-127
+     * Uses jmon-tone.js if available, otherwise fallback to local implementation
      * @param {number} midiNote - MIDI note number (0-127)
      * @returns {string} Note name (e.g., "C4", "A#3")
      */
     midiNoteToNoteName(midiNote) {
+        // Use jmon-tone.js if available
+        if (typeof jmonTone !== 'undefined') {
+            return jmonTone.midiNoteToNoteName(midiNote);
+        }
+        
+        // Fallback to local implementation
         if (typeof midiNote !== 'number' || midiNote < 0 || midiNote > 127) {
             console.warn(`Invalid MIDI note number: ${midiNote}. Must be 0-127.`);
             return 'C4';
@@ -35,14 +79,19 @@ class ToneDAW {
         const noteIndex = midiNote % 12;
         
         return noteNames[noteIndex] + octave;
-    }
-
-    /**
+    }    /**
      * Convert note name to MIDI note number (e.g., "C4" -> 60)
+     * Uses jmon-tone.js if available, otherwise fallback to local implementation
      * @param {string} noteName - Note name (e.g., "C4", "A#3")
      * @returns {number} MIDI note number (0-127)
      */
     noteNameToMidiNote(noteName) {
+        // Use jmon-tone.js if available
+        if (typeof jmonTone !== 'undefined') {
+            return jmonTone.noteNameToMidiNote(noteName);
+        }
+        
+        // Fallback to local implementation
         try {
             // Use Tone.js built-in conversion if available
             if (Tone.Frequency) {
@@ -71,14 +120,19 @@ class ToneDAW {
             console.warn(`Error converting note name ${noteName}:`, error);
             return 60;
         }
-    }
-
-    /**
+    }    /**
      * Process note input to handle both MIDI numbers and note names
+     * Uses jmon-tone.js if available, otherwise fallback to local implementation
      * @param {string|number|array} note - Note input (can be MIDI number, note name, or array of either)
      * @returns {string|array} Processed note(s) as note name(s)
      */
     processNoteInput(note) {
+        // Use jmon-tone.js if available
+        if (typeof jmonTone !== 'undefined') {
+            return jmonTone.processNoteInput(note);
+        }
+        
+        // Fallback to local implementation
         if (Array.isArray(note)) {
             // Handle chord arrays - process each note
             return note.map(n => this.processNoteInput(n));
@@ -847,9 +901,7 @@ class ToneDAW {
         }
 
         return expandedNotes;
-    }
-
-    setupAudio() {
+    }    setupAudio() {
         // Nettoyer les anciens synths et parts
         this.synths.forEach(s => s.dispose());
         this.parts.forEach(p => p.dispose());
@@ -864,26 +916,38 @@ class ToneDAW {
             const selectedType = track.synthSelect.value;
             let synth;
 
-            // Create the appropriate synth
-            if (selectedType === 'Sampler') {
+            // Create synth from jmon-tone instrument definition
+            const instrument = seq.instrument || this.convertSynthToInstrument(seq.synth);
+            
+            // Create the appropriate synth based on instrument type
+            if (instrument.type === 'sampler' || selectedType === 'Sampler') {
                 synth = new Tone.Sampler({
-                    urls: seq.synth.urls || {},
-                    baseUrl: seq.synth.baseUrl || '',
+                    urls: instrument.samples || seq.synth?.urls || {},
+                    baseUrl: instrument.baseUrl || seq.synth?.baseUrl || '',
                     onload: () => {
                         console.log(`✅ Sampler loaded for track: ${seq.label}`);
                     }
                 }).toDestination();
                 track.sampler = synth;
-            } else if (selectedType === 'Custom') {
-                synth = this.createCustomSynth(seq.synth);
+            } else if (selectedType === 'Custom' || instrument.engine === 'custom') {
+                synth = this.createCustomSynth(instrument.parameters || seq.synth);
                 track.sampler = null;
             } else {
+                // Convert jmon-tone instrument to Tone.js synth
+                const ToneSynthType = this.mapInstrumentToToneType(instrument, selectedType);
                 const hasChord = seq.notes.some(n => Array.isArray(n.note));
+                
                 if (hasChord) {
-                    synth = new Tone.PolySynth(Tone[selectedType]).toDestination();
+                    synth = new Tone.PolySynth(ToneSynthType).toDestination();
                 } else {
-                    synth = new Tone[selectedType]().toDestination();
+                    synth = new ToneSynthType().toDestination();
                 }
+                
+                // Apply instrument parameters
+                if (instrument.parameters) {
+                    this.applySynthParameters(synth, instrument.parameters);
+                }
+                
                 track.sampler = null;
             }
 
@@ -1394,84 +1458,83 @@ class ToneDAW {
         return synth;
     }
 
-    // Simple time parsing helpers
-    _parseSimpleTime(timeStr) {
-        if (typeof timeStr === 'number') return timeStr;
+    /**
+     * Map jmon-tone instrument engine to Tone.js synth type
+     * @param {Object} instrument - jmon-tone instrument definition
+     * @param {string} selectedType - Selected synth type from UI
+     * @returns {Function} Tone.js synth constructor
+     */
+    mapInstrumentToToneType(instrument, selectedType) {
+        // Use selected type if available
+        if (selectedType && selectedType !== 'Auto' && Tone[selectedType]) {
+            return Tone[selectedType];
+        }
         
+        // Map jmon-tone engine names to Tone.js types
+        const engineMap = {
+            'synth': Tone.Synth,
+            'amsynth': Tone.AMSynth,
+            'fmsynth': Tone.FMSynth,
+            'duosynth': Tone.DuoSynth,
+            'polysynth': Tone.PolySynth,
+            'monosynth': Tone.MonoSynth,
+            'noisesynth': Tone.NoiseSynth,
+            'plucksynth': Tone.PluckSynth
+        };
+        
+        const engine = instrument.engine?.toLowerCase() || 'synth';
+        return engineMap[engine] || Tone.Synth;
+    }
+
+    /**
+     * Apply jmon-tone instrument parameters to Tone.js synth
+     * @param {Object} synth - Tone.js synth instance
+     * @param {Object} parameters - jmon-tone instrument parameters
+     */
+    applySynthParameters(synth, parameters) {
         try {
-            // Handle bar:beat format (e.g., "8:0", "16:0")
-            if (timeStr.includes(':')) {
-                const parts = timeStr.split(':');
-                const bars = parseInt(parts[0]) || 0;
-                const beats = parseInt(parts[1]) || 0;
-                
-                // Convert to seconds based on current BPM
-                const bpm = this.transport.bpm.value || this.projectData.bpm || 120;
-                const secondsPerBeat = 60 / bpm;
-                const beatsPerBar = 4; // Standard 4/4 time
-                
-                const totalBeats = (bars * beatsPerBar) + beats;
-                const totalSeconds = totalBeats * secondsPerBeat;
-                
-                console.log(`⏱️ Parsed ${timeStr}: ${bars} bars + ${beats} beats = ${totalBeats} beats = ${totalSeconds.toFixed(2)}s at ${bpm} BPM`);
-                return totalSeconds;
+            // Apply oscillator parameters
+            if (parameters.oscillator && synth.oscillator) {
+                Object.keys(parameters.oscillator).forEach(key => {
+                    if (synth.oscillator[key] !== undefined) {
+                        synth.oscillator[key].value = parameters.oscillator[key];
+                    }
+                });
             }
             
-            // Handle direct second values
-            return parseFloat(timeStr) || 0;
+            // Apply envelope parameters
+            if (parameters.envelope && synth.envelope) {
+                Object.keys(parameters.envelope).forEach(key => {
+                    if (synth.envelope[key] !== undefined) {
+                        synth.envelope[key].value = parameters.envelope[key];
+                    }
+                });
+            }
+            
+            // Apply filter parameters
+            if (parameters.filter && synth.filter) {
+                Object.keys(parameters.filter).forEach(key => {
+                    if (synth.filter[key] !== undefined) {
+                        synth.filter[key].value = parameters.filter[key];
+                    }
+                });
+            }
+            
+            // Apply other parameters (polyphony, voice, etc.)
+            if (parameters.polyphony && synth.polyphony !== undefined) {
+                synth.polyphony = parameters.polyphony;
+            }
+            
+            if (parameters.voice && synth.voice !== undefined) {
+                synth.voice = parameters.voice;
+            }
+            
         } catch (error) {
-            console.warn(`Error parsing time "${timeStr}":`, error);
-            return 0;
+            console.warn('Error applying synth parameters:', error);
         }
     }
 
-    _parseSimpleDuration(durationStr) {
-        if (typeof durationStr === 'number') return durationStr;
-        
-        // Simple duration parsing based on current BPM
-        const bpm = this.projectData.bpm || 120;
-        const beatDuration = 60 / bpm;
-        
-        if (durationStr === '1n') return beatDuration * 4; // Whole note
-        if (durationStr === '2n') return beatDuration * 2; // Half note
-        if (durationStr === '4n') return beatDuration;     // Quarter note
-        if (durationStr === '8n') return beatDuration / 2; // Eighth note
-        if (durationStr === '16n') return beatDuration / 4; // Sixteenth note
-        if (durationStr === '32n') return beatDuration / 8; // Thirty-second note
-        if (durationStr === '64n') return beatDuration / 16; // Sixty-fourth note
-        
-        return parseFloat(durationStr) || beatDuration;
-    }
-
-    debugScaling() {
-        // Debug function to display current scaling information
-        const firstLane = this.tracks.length > 0 ? this.tracks[0].lane : null;
-        const laneWidth = firstLane ? (firstLane.clientWidth || firstLane.offsetWidth) : 0;
-        const totalDuration = this.getTotalDuration();
-        
-        console.log(`🔍 Scaling Debug Info:
-   - Auto-scale: ${this.autoScale ? 'ON' : 'OFF'}
-   - Current pixels/sec: ${this.pixelsPerSecond.toFixed(1)}
-   - Lane width: ${laneWidth}px
-   - Total duration: ${totalDuration.toFixed(2)}s
-   - Content width: ${(totalDuration * this.pixelsPerSecond).toFixed(1)}px
-   - Fit ratio: ${laneWidth > 0 ? ((totalDuration * this.pixelsPerSecond) / laneWidth).toFixed(2) : 'N/A'}
-   - Min/Max pixels/sec: ${this.minPixelsPerSecond}/${this.maxPixelsPerSecond}`);
-    }
-
-    forceScaleUpdate() {
-        // Force a complete recalculation of scaling
-        if (this.autoScale) {
-            // Temporarily reset to trigger recalculation
-            const oldPixelsPerSecond = this.pixelsPerSecond;
-            this.pixelsPerSecond = this.calculateDynamicPixelsPerSecond();
-            
-            if (Math.abs(oldPixelsPerSecond - this.pixelsPerSecond) > 1) {
-                console.log(`🔄 Scale update triggered: ${oldPixelsPerSecond.toFixed(1)} → ${this.pixelsPerSecond.toFixed(1)} pixels/sec`);
-                this.drawNotes();
-            }
-        }
-    }
+    // ...existing code...
     
     /**
      * Force a complete refresh of the display - useful after metadata changes

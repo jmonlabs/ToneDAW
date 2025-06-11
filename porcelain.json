@@ -1,4 +1,6 @@
 {
+  "format": "jmonTone",
+  "version": "1.0",
   "bpm": 85,
   "keySignature": "Bb major",  "metadata": {
     "title": "Porcelain Dreams - ToneDAW Demo",

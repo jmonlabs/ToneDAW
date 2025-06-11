@@ -1,6 +1,6 @@
 # ToneDAW.js
 
-A modular web-based music sequencer built with Tone.js, featuring a complete user interface for creating and playing musical compositions.
+A generic web-based music sequencer tool built with Tone.js, featuring a complete user interface for creating and playing musical compositions. ToneDAW.js natively supports **Tone.js objects and formats**, with additional support for **jmon-tone format** import for enhanced interoperability.
 
 ## Core Components
 
@@ -11,14 +11,60 @@ The main DAW class provides a complete browser-based music production environmen
 - **User Interface**: Graphical timeline with zoom, independent Mute/Solo controls, velocity-based transparency
 - **Export System**: High-quality MIDI and WAV export with loop expansion
 - **Transport Control**: Precise timing via Tone.js with loop management
+- **Generic Tone.js Tool**: Works with any Tone.js project or object structure
+- **jmon-tone Import**: Optional support for jmon-tone format files
+
+## Supported Formats
+
+ToneDAW.js is designed as a **generic Tone.js visualization and control tool**:
+
+### 1. Native Tone.js Format (Primary)
+Direct Tone.js objects and structures - the primary supported format:
+- Works with any Tone.js project
+- No external dependencies required  
+- Direct integration with Tone.js audio engine
+- Optimal performance and compatibility
+
+### 2. jmon-tone Format Import (Secondary)
+Enhanced format support when `jmon-tone.js` is available:
+- Requires the external [jmon-tone.js library](https://github.com/essicolo/jmon)
+- Supports the full jmon-tone specification with validation
+- Automatic format detection and conversion
+- Import capability for jmon-tone projects
 
 ## Project Format Specification
 
-ToneDAW.js uses a JSON-based project format designed for web audio applications:
+ToneDAW.js primarily works with **Tone.js native objects and formats**:
 
-### Project Structure
+### Native Tone.js Format Example
 ```json
 {
+  "bpm": 120,
+  "keySignature": "C major",
+  "metadata": {
+    "title": "My Composition",
+    "composer": "Artist Name"
+  },
+  "sequences": [
+    {
+      "label": "Simple Piano",
+      "synth": {
+        "type": "PolySynth",
+        "voice": "Synth",
+        "oscillator": { "type": "sine" },
+        "envelope": { "attack": 0.1, "release": 1.0 }
+      },
+      "notes": [...]
+    }
+  ]
+}
+```
+
+### jmon-tone Import Format Example
+```json
+{
+  "format": "jmonTone",
+  "version": "1.0",
   "bpm": 120,
   "keySignature": "C major",
   "metadata": {
@@ -29,7 +75,22 @@ ToneDAW.js uses a JSON-based project format designed for web audio applications:
 }
 ```
 
-### Sequence Definition
+### jmon-tone Sequence Definition
+```json
+{
+  "label": "Lead Melody",
+  "loop": "2:0",
+  "instrument": {
+    "type": "synthesizer",
+    "engine": "fmsynth",
+    "parameters": {
+      "oscillator": { "type": "sine" },
+      "envelope": { "attack": 0.1, "release": 1.0 }
+    }
+  },
+  "notes": [...]
+}
+```
 ```json
 {
   "label": "Lead Melody",
@@ -82,20 +143,25 @@ ToneDAW.js/
 
 ## Configuration Examples
 
-### Basic ToneDAW Project
+### Basic jmon-tone Project
 ```json
 {
+  "format": "jmonTone",
+  "version": "1.0",
   "bpm": 85,
   "metadata": { "title": "Porcelain Dreams" },
   "sequences": [
     {
       "label": "Ambient Piano",
       "loop": "4:0",
-      "synth": {
-        "type": "PolySynth",
-        "voice": "FMSynth",
-        "oscillator": { "type": "square" },
-        "envelope": { "attack": 0.01, "release": 1.0 }
+      "instrument": {
+        "type": "synthesizer",
+        "engine": "polysynth",
+        "parameters": {
+          "voice": "FMSynth",
+          "oscillator": { "type": "square" },
+          "envelope": { "attack": 0.01, "release": 1.0 }
+        }
       },
       "notes": [
         { "note": "C4", "time": 0, "duration": "2n", "velocity": 0.8 },
@@ -106,26 +172,39 @@ ToneDAW.js/
 }
 ```
 
-### Supported Synthesizers
+### Supported Instruments
 
-ToneDAW.js supports various Tone.js synthesizer types:
-- **Synth**: Basic subtractive synthesis
-- **AMSynth**: Amplitude modulation synthesis
-- **FMSynth**: Frequency modulation synthesis  
-- **DuoSynth**: Dual-oscillator synthesis
-- **PolySynth**: Polyphonic synthesis engine
-- **Sampler**: Audio sample playback with pitch mapping
+ToneDAW.js supports jmon-tone instrument specifications:
+
+#### Synthesizer Instruments
+- **synth**: Basic subtractive synthesis
+- **amsynth**: Amplitude modulation synthesis
+- **fmsynth**: Frequency modulation synthesis  
+- **duosynth**: Dual-oscillator synthesis
+- **polysynth**: Polyphonic synthesis engine
+- **monosynth**: Monophonic synthesis
+- **noisesynth**: Noise-based synthesis
+- **plucksynth**: Plucked string synthesis
+
+#### Sample Instruments
+- **sampler**: Multi-sample instruments with automatic pitch mapping
 
 ## API Usage
 
-### Basic Integration
+### Basic Integration (jmon-tone Native)
 ```javascript
-// Load project data
+// Load jmon-tone project data
 const response = await fetch('./project.json');
-const projectData = await response.json();
+const jmonToneData = await response.json();
 
-// Initialize DAW
-const daw = new ToneDAW('container-id', projectData);
+// ToneDAW natively supports jmon-tone format
+const daw = new ToneDAW('container-id', jmonToneData);
+```
+
+### Legacy Format Support
+```javascript
+// Legacy formats are automatically converted to jmon-tone
+const daw = new ToneDAW('container-id', legacyData);
 ```
 
 ## License

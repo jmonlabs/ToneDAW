@@ -1,0 +1,28 @@
+{
+  "bpm": 120,
+  "keySignature": "C major",
+  "metadata": {
+    "title": "Native Tone.js Format Example",
+    "composer": "ToneDAW Team",
+    "description": "Example using native Tone.js format - the primary supported format"
+  },
+  "sequences": [
+    {
+      "label": "Simple Piano",
+      "loop": "4:0",
+      "synth": {
+        "type": "PolySynth",
+        "voice": "Synth",
+        "polyphony": 4,
+        "oscillator": { "type": "sine" },
+        "envelope": { "attack": 0.1, "decay": 0.3, "sustain": 0.4, "release": 1.0 }
+      },
+      "notes": [
+        { "note": "C4", "time": 0, "duration": "2n", "velocity": 0.8 },
+        { "note": "E4", "time": "0:2", "duration": "2n", "velocity": 0.7 },
+        { "note": "G4", "time": "1:0", "duration": "2n", "velocity": 0.9 },
+        { "note": ["C4", "E4", "G4"], "time": "1:2", "duration": "2n", "velocity": 0.8 }
+      ]
+    }
+  ]
+}
