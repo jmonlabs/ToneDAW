@@ -1,4 +1,4 @@
-# ToneDAW.js
+# tone-daw
 
 A generic web-based music sequencer tool built with Tone.js, featuring a complete user interface for creating and playing musical compositions. ToneDAW.js natively supports **Tone.js objects and formats**, with additional support for **jmon-tone format** import for enhanced interoperability.
 
