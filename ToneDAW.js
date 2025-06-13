@@ -2295,8 +2295,8 @@ class ToneDAW {
         zoomLevel.className = 'zoom-level-indicator';
         zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
         
-        // Zoom slider (commented out)
         /*
+        // Zoom slider (commented out)
         const zoomSlider = document.createElement('input');
         zoomSlider.type = 'range';
         zoomSlider.className = 'zoom-slider';
@@ -2316,12 +2316,13 @@ class ToneDAW {
             }
         };
         */
-
+        
         // Fit to width button
         const fitToWidthBtn = document.createElement('button');
         fitToWidthBtn.className = 'zoom-button prominent';
         fitToWidthBtn.innerHTML = '⟷';
-        fitToWidthBtn.title = 'Fit to width';        fitToWidthBtn.onclick = () => {
+        fitToWidthBtn.title = 'Fit to width';
+        fitToWidthBtn.onclick = () => {
             this.autoScale = true;
             this.autoScaleCheckbox.checked = true;
             this.drawNotes();
@@ -2335,9 +2336,10 @@ class ToneDAW {
         const oneToOneBtn = document.createElement('button');
         oneToOneBtn.className = 'zoom-button prominent';
         oneToOneBtn.innerHTML = '1:1';
-        oneToOneBtn.title = 'Reset to 1:1 zoom';        oneToOneBtn.onclick = () => {
+        oneToOneBtn.title = 'Reset to 1:1 zoom';
+        oneToOneBtn.onclick = () => {
             this.pixelsPerSecond = 50; // Default zoom level
-            zoomSlider.value = this.pixelsPerSecond;
+            // zoomSlider.value = this.pixelsPerSecond; // (commented out)
             zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
             this.autoScale = false;
             this.autoScaleCheckbox.checked = false;
@@ -2349,6 +2351,7 @@ class ToneDAW {
         };
         
         zoomControls.appendChild(document.createTextNode('Zoom: '));
+        // zoomControls.appendChild(zoomSlider); // (commented out)
         zoomControls.appendChild(zoomLevel);
         zoomControls.appendChild(fitToWidthBtn);
         zoomControls.appendChild(oneToOneBtn);
