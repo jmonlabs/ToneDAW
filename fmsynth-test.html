@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToneDAW.js - FMSynth Chord Test</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./lib/Tone.js"></script>
+    <script src="./lib/Midi.js"></script>
+    <script src="./lib/jmon-tone.js"></script>
+    <script src="./ToneDAW.js"></script>
+</head>
+<body>
+    <h1>FMSynth Chord Test</h1>
+    <div id="daw"></div>
+    <script>
+        // FMSynth Chord Test
+        async function init() {
+            console.log('🎹 FMSynth Chord Test - Initializing...');
+            
+            // Load project data
+            console.log('📁 Loading FMSynth chord test data...');
+            const response = await fetch('./fmsynth-chords.json');
+            const projectData = await response.json();
+            console.log('✅ Project data loaded:', projectData);
+            
+            // Initialize ToneDAW
+            console.log('🔄 Initializing ToneDAW with FMSynth chord test...');
+            const daw = new ToneDAW('daw', projectData);
+            
+            console.log('🎯 ToneDAW initialized!');
+            
+            // Add detailed logging
+            window.chordPlaybackDebug = true;
+            
+            // Add a play button at the top for easier testing
+            const playButton = document.createElement('button');
+            playButton.textContent = '▶️ Play Test Chords';
+            playButton.style.padding = '10px';
+            playButton.style.margin = '10px';
+            playButton.style.fontSize = '16px';            playButton.onclick = () => {
+                console.log('🎵 Starting playback of FMSynth chords...');
+                if (daw && daw.transport) {
+                    daw.transport.start();
+                    console.log('▶️ Playback started');
+                }
+            };
+            
+            const stopButton = document.createElement('button');
+            stopButton.textContent = '⏹️ Stop';
+            stopButton.style.padding = '10px';
+            stopButton.style.margin = '10px';
+            stopButton.style.fontSize = '16px';
+            stopButton.onclick = () => {
+                console.log('⏹️ Stopping playback');
+                if (daw && daw.transport) {
+                    daw.transport.stop();
+                    console.log('⏹️ Playback stopped');
+                }
+            };
+            
+            // Add a direct chord test button
+            const testChordButton = document.createElement('button');
+            testChordButton.textContent = '🎹 Test Single Chord';
+            testChordButton.style.padding = '10px';
+            testChordButton.style.margin = '10px';
+            testChordButton.style.fontSize = '16px';
+            testChordButton.onclick = () => {
+                console.log('🎵 Testing a single chord directly...');
+                const synth = new Tone.FMSynth().toDestination();
+                
+                // Play a C major chord
+                const chord = ["C4", "E4", "G4"];
+                console.log(`Playing test chord: ${chord}`);
+                
+                chord.forEach((note, index) => {
+                    const offset = index * 0.005;
+                    console.log(`Playing note ${note} with offset ${offset}`);
+                    synth.triggerAttackRelease(note, "1n", Tone.now() + offset, 0.7);
+                });
+            };
+            
+            const buttonContainer = document.createElement('div');
+            buttonContainer.style.textAlign = 'center';
+            buttonContainer.appendChild(playButton);
+            buttonContainer.appendChild(stopButton);
+            buttonContainer.appendChild(testChordButton);
+            
+            document.body.insertBefore(buttonContainer, document.getElementById('daw'));
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

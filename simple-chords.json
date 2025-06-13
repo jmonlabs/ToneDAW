@@ -1,0 +1,47 @@
+{
+  "format": "jmonTone",
+  "version": "1.0",
+  "bpm": 100,
+  "keySignature": "C major",
+  "metadata": {
+    "title": "Simple Chord Test",
+    "author": "GitHub Copilot",
+    "description": "A simple file to test chord playback in ToneDAW",
+    "duration": 8.0
+  },
+  "globalEffects": {
+    "masterReverb": {
+      "type": "Reverb",
+      "decay": 2,
+      "wet": 0.2
+    }
+  },
+  "sequences": [
+    {
+      "label": "Simple Piano Chords",
+      "group": "piano",
+      "synth": {
+        "type": "Synth",
+        "oscillator": {
+          "type": "triangle"
+        },
+        "envelope": {
+          "attack": 0.05,
+          "decay": 0.3,
+          "sustain": 0.4,
+          "release": 0.8
+        },
+        "effects": [
+          {
+            "type": "Reverb",
+            "decay": 1.5,
+            "wet": 0.4
+          }
+        ]
+      },
+      "notes": [
+        { "note": ["C3", "G6"], "time": "0:0", "duration": "2n", "velocity": 0.7 }
+      ]
+    }
+  ]
+}

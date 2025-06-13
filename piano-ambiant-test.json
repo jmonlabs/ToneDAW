@@ -1,0 +1,39 @@
+{
+  "format": "jmonTone",
+  "version": "1.0",
+  "bpm": 85,
+  "keySignature": "C major",
+  "metadata": {
+    "title": "custom Test",
+    "author": "GitHub Copilot",
+    "description": "A simplified test file for Piano Ambiant",
+    "duration": 8.0
+  },
+  "sequences": [
+    {
+      "label": "Custom Synth",
+      "group": "piano",      
+      "synth": {
+        "type": "FMSynth",
+        "oscillator": {
+          "type": "sine",
+          "harmonicity": 2,
+          "modulationType": "triangle",
+          "modulationIndex": 12
+        },
+        "envelope": {
+          "attack": 0.1,
+          "decay": 0.3,
+          "sustain": 0.4,
+          "release": 1.2
+        }
+      },
+      "notes": [
+        { "note": ["C3", "G5"], "time": "0:0", "duration": "2n", "velocity": 0.7 },
+        { "note": ["F4", "A4", "C5"], "time": "2:0", "duration": "2n", "velocity": 0.7 },
+        { "note": ["G4", "B4", "D5"], "time": "4:0", "duration": "2n", "velocity": 0.7 },
+        { "note": ["C4", "E4", "G4"], "time": "6:0", "duration": "2n", "velocity": 0.7 }
+      ]
+    }
+  ]
+}

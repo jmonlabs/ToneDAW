@@ -412,10 +412,7 @@ class ToneDAW {
         zoomOutBtn.title = 'Zoom out (decrease note width)';        zoomOutBtn.onclick = () => {
             this.pixelsPerSecond = Math.max(this.minPixelsPerSecond, this.pixelsPerSecond * 0.8);
             this.drawNotes();
-            // Update timeline ruler if it exists
-            if (this.trackArea) {
-                this.createTimelineRuler();
-            }
+            this.createTimelineRuler();
             // Update enhanced zoom controls if they exist
             const zoomSlider = this.container.querySelector('.zoom-slider');
             const zoomLevel = this.container.querySelector('.zoom-level-indicator');
@@ -431,10 +428,7 @@ class ToneDAW {
         zoomInBtn.title = 'Zoom in (increase note width)';        zoomInBtn.onclick = () => {
             this.pixelsPerSecond = Math.min(this.maxPixelsPerSecond, this.pixelsPerSecond * 1.25);
             this.drawNotes();
-            // Update timeline ruler if it exists
-            if (this.trackArea) {
-                this.createTimelineRuler();
-            }
+            this.createTimelineRuler();
             // Update enhanced zoom controls if they exist
             const zoomSlider = this.container.querySelector('.zoom-slider');
             const zoomLevel = this.container.querySelector('.zoom-level-indicator');
@@ -468,10 +462,7 @@ class ToneDAW {
             }
             // Immediately redraw with new scaling mode
             this.drawNotes();
-            // Update timeline ruler if it exists
-            if (this.trackArea) {
-                this.createTimelineRuler();
-            }
+            this.createTimelineRuler();
             // Update enhanced zoom controls
             const zoomSlider = this.container.querySelector('.zoom-slider');
             const zoomLevel = this.container.querySelector('.zoom-level-indicator');
@@ -555,24 +546,19 @@ class ToneDAW {
         topRowElements.push(this.currentTimeDisplay, this.timelineSlider, this.totalTimeDisplay, tempoWrapper, globalLoopWrapper, autoScaleWrapper, zoomWrapper);
         
         topRow.append(...topRowElements);
-        this.container.appendChild(topRow);        // Zone des tracks
-        console.log('About to create trackArea...');
-        this.trackArea = document.createElement('div');
-        console.log('trackArea created:', this.trackArea);
+        this.container.appendChild(topRow);
+
+        // Zone des tracks        this.trackArea = document.createElement('div');
         this.trackArea.className = 'daw-track-area';
         this.container.appendChild(this.trackArea);
-        console.log('trackArea added to container');        // Types de synthétiseurs disponibles
+
+        // Types de synthétiseurs disponibles
         const synthTypes = ['Synth', 'AMSynth', 'FMSynth', 'DuoSynth', 'Sampler'];
-        console.log('Checking projectData.sequences:', this.projectData.sequences);
-        if (this.projectData.sequences && this.projectData.sequences.some(seq => seq.synth && seq.synth.type === 'Custom')) {
+        if (this.projectData.sequences.some(seq => seq.synth.type === 'Custom')) {
             synthTypes.push('Custom');
-        }        // Créer les tracks
-        console.log('About to create tracks, sequences:', this.projectData.sequences);
-        if (!this.projectData.sequences || !Array.isArray(this.projectData.sequences)) {
-            console.error('No sequences found in project data');
-            return;
         }
-        
+
+        // Créer les tracks
         this.projectData.sequences.forEach((seq, index) => {
             const trackContainer = document.createElement('div');
             trackContainer.className = 'daw-track-container';
@@ -770,10 +756,7 @@ class ToneDAW {
                     if (!this.autoScale) {
                         this.pixelsPerSecond = Math.min(this.maxPixelsPerSecond, this.pixelsPerSecond * 1.25);
                         this.drawNotes();
-                        // Update timeline ruler if it exists
-                        if (this.trackArea) {
-                            this.createTimelineRuler();
-                        }
+                        this.createTimelineRuler();
                         // Update enhanced zoom controls
                         const zoomSlider = this.container.querySelector('.zoom-slider');
                         const zoomLevel = this.container.querySelector('.zoom-level-indicator');
@@ -788,10 +771,7 @@ class ToneDAW {
                     if (!this.autoScale) {
                         this.pixelsPerSecond = Math.max(this.minPixelsPerSecond, this.pixelsPerSecond * 0.8);
                         this.drawNotes();
-                        // Update timeline ruler if it exists
-                        if (this.trackArea) {
-                            this.createTimelineRuler();
-                        }
+                        this.createTimelineRuler();
                         // Update enhanced zoom controls
                         const zoomSlider = this.container.querySelector('.zoom-slider');
                         const zoomLevel = this.container.querySelector('.zoom-level-indicator');
@@ -819,21 +799,9 @@ class ToneDAW {
             <small><strong>Shortcuts:</strong> 
             Spacebar=Play/Pause | Ctrl+A=Auto-Scale | Ctrl+±=Zoom | Ctrl+R=Refresh | Ctrl+D=Debug
             </small>
-        `;        this.container.appendChild(helpInfo);        // Create enhanced zoom controls after all UI is built
-        try {
-            this.createEnhancedZoomControls();
-        } catch (error) {
-            console.warn('Enhanced zoom controls creation failed:', error);
-        }
+        `;        this.container.appendChild(helpInfo);
 
         this.drawNotes();
-        
-        // Create timeline ruler after everything is set up
-        try {
-            this.createTimelineRuler();
-        } catch (error) {
-            console.warn('Timeline ruler creation failed:', error);
-        }
     }
 
     calculateDynamicPixelsPerSecond() {
@@ -1082,10 +1050,12 @@ class ToneDAW {
                 track.lane.style.width = '';
             });
             console.log(`📐 Auto-scale: Track area width unconstrained`);
-        }        this.trackArea.appendChild(progressLine);
+        }
+          this.trackArea.appendChild(progressLine);
         this.progressLine = progressLine;
         
-        // Don't create timeline ruler here - it will be created after buildUI is complete
+        // Create enhanced timeline ruler
+        this.createTimelineRuler();
         } finally {
             this._drawingNotes = false;
         }
@@ -1742,7 +1712,7 @@ class ToneDAW {
                                     offsetTime,
                                     velocity
                                 );
-                                                       });
+                            });
                         }
                     } else {
                         // Single note - play normally
@@ -2053,16 +2023,11 @@ class ToneDAW {
                 }
             }
         });
-        console.log('--------------------------------------------------------');    }
+        console.log('--------------------------------------------------------');
+    }
 
     // Enhanced timeline methods
     createTimelineRuler() {
-        // Safety check: return early if trackArea doesn't exist yet
-        if (!this.trackArea) {
-            console.warn('createTimelineRuler called before trackArea exists');
-            return;
-        }
-        
         const existingRuler = this.trackArea.querySelector('.timeline-ruler');
         if (existingRuler) {
             existingRuler.remove();
@@ -2267,18 +2232,19 @@ class ToneDAW {
             
             startX = e.clientX;
         };
-        
-        const onDragEnd = () => {
+          const onDragEnd = () => {
             isDragging = false;
             document.removeEventListener('mousemove', onDrag);
             document.removeEventListener('mouseup', onDragEnd);
-        };    }
+        };
+    }
+}
 
-    // Enhanced zoom controls
-    createEnhancedZoomControls() {
-        // Safety check: return early if container doesn't exist yet
+// Make sure ToneDAW is available in the global scope
+if (typeof window !== 'undefined') {
+    window.ToneDAW = ToneDAW;
+}
         if (!this.container) {
-            console.warn('createEnhancedZoomControls called before container exists');
             return;
         }
         
@@ -2295,8 +2261,7 @@ class ToneDAW {
         zoomLevel.className = 'zoom-level-indicator';
         zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
         
-        // Zoom slider (commented out)
-        /*
+        // Zoom slider
         const zoomSlider = document.createElement('input');
         zoomSlider.type = 'range';
         zoomSlider.className = 'zoom-slider';
@@ -2304,28 +2269,72 @@ class ToneDAW {
         zoomSlider.max = this.maxPixelsPerSecond;
         zoomSlider.value = this.pixelsPerSecond;
         zoomSlider.step = 1;
+        
         zoomSlider.oninput = () => {
             this.pixelsPerSecond = parseFloat(zoomSlider.value);
             zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
-            this.autoScale = false; // Disable auto-scale when manually zooming
-            this.autoScaleCheckbox.checked = false;
-            this.drawNotes();
-            // Update timeline ruler if it exists
-            if (this.trackArea) {
-                this.createTimelineRuler();
+            this.autoScale = false;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = false;
             }
+            this.drawNotes();
         };
-        */
-
+        
         // Fit to width button
         const fitToWidthBtn = document.createElement('button');
         fitToWidthBtn.className = 'zoom-button prominent';
         fitToWidthBtn.innerHTML = '⟷';
-        fitToWidthBtn.title = 'Fit to width';        fitToWidthBtn.onclick = () => {
+        fitToWidthBtn.title = 'Fit to width';
+        fitToWidthBtn.onclick = () => {
             this.autoScale = true;
-            this.autoScaleCheckbox.checked = true;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = true;
+            }
             this.drawNotes();
-            // Update timeline ruler if it exists
+        };
+        
+        // 1:1 zoom button
+        const oneToOneBtn = document.createElement('button');
+        oneToOneBtn.className = 'zoom-button prominent';
+        oneToOneBtn.innerHTML = '1:1';
+        oneToOneBtn.title = 'Reset to 1:1 zoom';
+        oneToOneBtn.onclick = () => {
+            this.pixelsPerSecond = 50;
+            zoomSlider.value = this.pixelsPerSecond;
+            zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
+            this.autoScale = false;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = false;
+            }
+            this.drawNotes();
+        };
+        
+        zoomControls.appendChild(document.createTextNode('Zoom: '));
+        zoomControls.appendChild(zoomSlider);
+        zoomControls.appendChild(zoomLevel);
+        zoomControls.appendChild(fitToWidthBtn);
+        zoomControls.appendChild(oneToOneBtn);
+        
+        // Insert after the top row
+        const topRow = this.container.querySelector('.top-row');
+        if (topRow && topRow.parentNode) {
+            topRow.parentNode.insertBefore(zoomControls, topRow.nextSibling);
+        } else {
+            this.container.appendChild(zoomControls);
+        }
+        
+        return zoomControls;
+    }
+        const fitToWidthBtn = document.createElement('button');
+        fitToWidthBtn.className = 'zoom-button prominent';
+        fitToWidthBtn.innerHTML = '⟷';
+        fitToWidthBtn.title = 'Fit to width';
+        fitToWidthBtn.onclick = () => {
+            this.autoScale = true;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = true;
+            }
+            this.drawNotes();
             if (this.trackArea) {
                 this.createTimelineRuler();
             }
@@ -2335,27 +2344,117 @@ class ToneDAW {
         const oneToOneBtn = document.createElement('button');
         oneToOneBtn.className = 'zoom-button prominent';
         oneToOneBtn.innerHTML = '1:1';
-        oneToOneBtn.title = 'Reset to 1:1 zoom';        oneToOneBtn.onclick = () => {
+        oneToOneBtn.title = 'Reset to 1:1 zoom';
+        oneToOneBtn.onclick = () => {
             this.pixelsPerSecond = 50; // Default zoom level
             zoomSlider.value = this.pixelsPerSecond;
             zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
             this.autoScale = false;
-            this.autoScaleCheckbox.checked = false;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = false;
+            }
             this.drawNotes();
-            // Update timeline ruler if it exists
             if (this.trackArea) {
                 this.createTimelineRuler();
             }
         };
         
         zoomControls.appendChild(document.createTextNode('Zoom: '));
+        zoomControls.appendChild(zoomSlider);
         zoomControls.appendChild(zoomLevel);
         zoomControls.appendChild(fitToWidthBtn);
         zoomControls.appendChild(oneToOneBtn);
         
         // Insert after the top row
         const topRow = this.container.querySelector('.top-row');
-        topRow.parentNode.insertBefore(zoomControls, topRow.nextSibling);
+        if (topRow && topRow.parentNode) {
+            topRow.parentNode.insertBefore(zoomControls, topRow.nextSibling);
+        } else {
+            this.container.appendChild(zoomControls);
+        }
+        
+        return zoomControls;
+    }
+
+    createSimpleZoomControls() {
+        if (!this.container) {
+            return;
+        }
+        
+        const existingControls = this.container.querySelector('.enhanced-zoom-controls');
+        if (existingControls) {
+            existingControls.remove();
+        }
+
+        const zoomControls = document.createElement('div');
+        zoomControls.className = 'enhanced-zoom-controls';
+        
+        // Zoom level indicator
+        const zoomLevel = document.createElement('span');
+        zoomLevel.className = 'zoom-level-indicator';
+        zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
+        
+        // Zoom slider
+        const zoomSlider = document.createElement('input');
+        zoomSlider.type = 'range';
+        zoomSlider.className = 'zoom-slider';
+        zoomSlider.min = this.minPixelsPerSecond;
+        zoomSlider.max = this.maxPixelsPerSecond;
+        zoomSlider.value = this.pixelsPerSecond;
+        zoomSlider.step = 1;
+        
+        zoomSlider.oninput = () => {
+            this.pixelsPerSecond = parseFloat(zoomSlider.value);
+            zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
+            this.autoScale = false;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = false;
+            }
+            this.drawNotes();
+        };
+        
+        // Fit to width button
+        const fitToWidthBtn = document.createElement('button');
+        fitToWidthBtn.className = 'zoom-button prominent';
+        fitToWidthBtn.innerHTML = '⟷';
+        fitToWidthBtn.title = 'Fit to width';
+        fitToWidthBtn.onclick = () => {
+            this.autoScale = true;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = true;
+            }
+            this.drawNotes();
+        };
+        
+        // 1:1 zoom button
+        const oneToOneBtn = document.createElement('button');
+        oneToOneBtn.className = 'zoom-button prominent';
+        oneToOneBtn.innerHTML = '1:1';
+        oneToOneBtn.title = 'Reset to 1:1 zoom';
+        oneToOneBtn.onclick = () => {
+            this.pixelsPerSecond = 50;
+            zoomSlider.value = this.pixelsPerSecond;
+            zoomLevel.textContent = `${Math.round(this.pixelsPerSecond)}px/s`;
+            this.autoScale = false;
+            if (this.autoScaleCheckbox) {
+                this.autoScaleCheckbox.checked = false;
+            }
+            this.drawNotes();
+        };
+        
+        zoomControls.appendChild(document.createTextNode('Zoom: '));
+        zoomControls.appendChild(zoomSlider);
+        zoomControls.appendChild(zoomLevel);
+        zoomControls.appendChild(fitToWidthBtn);
+        zoomControls.appendChild(oneToOneBtn);
+        
+        // Insert after the top row
+        const topRow = this.container.querySelector('.top-row');
+        if (topRow && topRow.parentNode) {
+            topRow.parentNode.insertBefore(zoomControls, topRow.nextSibling);
+        } else {
+            this.container.appendChild(zoomControls);
+        }
         
         return zoomControls;
     }

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToneDAW - Final Chord Test</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./lib/Tone.js"></script>
+    <script src="./lib/Midi.js"></script>
+    <script src="./lib/jmon-tone.js"></script>
+    <script src="./ToneDAW.js"></script>
+    <style>
+        .test-info {
+            background: #e8f4f8;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #4a90e2;
+        }
+        .test-button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>ToneDAW Chord Playback Test Suite</h2>
+        <p>This page tests the updated chord playback functionality. The Debug button (🔍) has been added to the main interface.</p>
+        <h3>Test Options:</h3>
+        <button class="test-button" onclick="loadSimpleTest()">Load Simple Chord Test</button>
+        <button class="test-button" onclick="loadPianoAmbiantTest()">Load Piano Ambiant Test</button>
+        <button class="test-button" onclick="loadOriginalProject()">Load Original Project</button>
+    </div>
+    
+    <div id="daw"></div>
+    
+    <script>
+        let currentDAW = null;
+        
+        async function loadSimpleTest() {
+            console.log('Loading simple chord test...');
+            const response = await fetch('./simple-chords.json');
+            const projectData = await response.json();
+            
+            if (currentDAW) {
+                currentDAW.container.innerHTML = '';
+            }
+            
+            currentDAW = new ToneDAW('daw', projectData);
+            console.log('✅ Simple chord test loaded. Click the 🔍 Debug button to see chord diagnostics.');
+        }
+        
+        async function loadPianoAmbiantTest() {
+            console.log('Loading Piano Ambiant test...');
+            const response = await fetch('./piano-ambiant-test.json');
+            const projectData = await response.json();
+            
+            if (currentDAW) {
+                currentDAW.container.innerHTML = '';
+            }
+            
+            currentDAW = new ToneDAW('daw', projectData);
+            console.log('✅ Piano Ambiant test loaded. Click the 🔍 Debug button to see chord diagnostics.');
+        }
+        
+        async function loadOriginalProject() {
+            console.log('Loading original porcelain project...');
+            const response = await fetch('./porcelain.json');
+            const projectData = await response.json();
+            
+            if (currentDAW) {
+                currentDAW.container.innerHTML = '';
+            }
+            
+            currentDAW = new ToneDAW('daw', projectData);
+            console.log('✅ Original project loaded. Click the 🔍 Debug button to see chord diagnostics.');
+        }
+        
+        // Load the simple test by default
+        window.addEventListener('load', loadSimpleTest);
+    </script>
+</body>
+</html>

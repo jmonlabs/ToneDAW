@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Direct FMSynth Chord Test</title>
+    <script src="./lib/Tone.js"></script>
+</head>
+<body>
+    <h1>Direct FMSynth Chord Test</h1>
+    <div style="text-align: center; margin: 20px;">
+        <button id="playChord" style="padding: 10px; font-size: 16px;">🎹 Play C Major Chord</button>
+        <button id="playSequential" style="padding: 10px; font-size: 16px; margin-left: 10px;">🎹 Play Sequential Notes</button>
+        <button id="playSynth" style="padding: 10px; font-size: 16px; margin-left: 10px;">🎹 Play Synth Chord</button>
+    </div>
+    
+    <div id="status" style="margin: 20px; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
+        Status: Ready
+    </div>
+    
+    <script>
+        document.getElementById('status').innerText = 'Status: Initializing Tone.js...';
+        
+        // Start Tone.js
+        async function startAudio() {
+            await Tone.start();
+            document.getElementById('status').innerText = 'Status: Tone.js initialized';
+        }
+        
+        // Play a chord directly with a synth
+        document.getElementById('playChord').onclick = async function() {
+            await startAudio();
+            document.getElementById('status').innerText = 'Status: Playing chord with FMSynth...';
+            
+            const synth = new Tone.FMSynth({
+                oscillator: {
+                    type: "sine",
+                    harmonicity: 2,
+                    modulationType: "triangle"
+                },
+                envelope: {
+                    attack: 0.1,
+                    decay: 0.3,
+                    sustain: 0.4,
+                    release: 1.2
+                }
+            }).toDestination();
+            
+            // Try to play a C major chord
+            synth.triggerAttackRelease(["C4", "E4", "G4"], "2n");
+        };
+        
+        // Play sequential notes with small offsets
+        document.getElementById('playSequential').onclick = async function() {
+            await startAudio();
+            document.getElementById('status').innerText = 'Status: Playing sequential notes...';
+            
+            const synth = new Tone.FMSynth({
+                oscillator: {
+                    type: "sine",
+                    harmonicity: 2,
+                    modulationType: "triangle"
+                },
+                envelope: {
+                    attack: 0.1,
+                    decay: 0.3,
+                    sustain: 0.4,
+                    release: 1.2
+                }
+            }).toDestination();
+            
+            // Play each note of the chord with a small offset
+            const chord = ["C4", "E4", "G4"];
+            chord.forEach((note, index) => {
+                const offset = index * 0.1; // 100ms between notes
+                synth.triggerAttackRelease(note, "2n", Tone.now() + offset);
+            });
+        };
+        
+        // Try with a Synth (not FMSynth)
+        document.getElementById('playSynth').onclick = async function() {
+            await startAudio();
+            document.getElementById('status').innerText = 'Status: Playing with basic Synth...';
+            
+            const synth = new Tone.Synth().toDestination();
+            
+            // Try to play a C major chord
+            synth.triggerAttackRelease(["C4", "E4", "G4"], "2n");
+        };
+    </script>
+</body>
+</html>

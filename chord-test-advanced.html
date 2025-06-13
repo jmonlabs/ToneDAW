@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Chord Playback Test</title>
+    <script src="./lib/Tone.js"></script>
+</head>
+<body>
+    <h1>Advanced Chord Playback Test</h1>
+    
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="testFMSynthChord" style="padding: 10px; margin: 5px; font-size: 16px;">Test FMSynth Chord</button>
+        <button id="testSynthChord" style="padding: 10px; margin: 5px; font-size: 16px;">Test Basic Synth Chord</button>
+        <button id="testPianoAmbiantSettings" style="padding: 10px; margin: 5px; font-size: 16px;">Test Piano Ambiant Settings</button>
+    </div>
+    
+    <div id="status" style="margin: 20px; padding: 10px; background-color: #f0f0f0;">Status: Ready</div>
+    
+    <script>
+        // Function to start Tone.js audio context
+        async function startAudio() {
+            await Tone.start();
+            document.getElementById('status').innerText = 'Status: Audio context started';
+        }
+        
+        // Testing FMSynth chord playback
+        document.getElementById('testFMSynthChord').addEventListener('click', async function() {
+            await startAudio();
+            document.getElementById('status').innerText = 'Status: Testing FMSynth chord playback...';
+            
+            try {
+                // Create a basic FMSynth
+                const fmSynth = new Tone.FMSynth().toDestination();
+                console.log('FMSynth created:', fmSynth);
+                
+                // Create chord notes
+                const chord = ["C4", "E4", "G4"];
+                console.log('Playing chord with FMSynth:', chord);
+                
+                // Manual polyphony - play each note with a small offset
+                chord.forEach((note, index) => {
+                    const offset = index * 0.01; // 10ms between notes
+                    console.log(`Playing note ${note} with offset ${offset}`);
+                    fmSynth.triggerAttackRelease(note, "1n", Tone.now() + offset);
+                });
+                
+                document.getElementById('status').innerText = 'Status: FMSynth chord played successfully!';
+            } catch (e) {
+                console.error('Error playing FMSynth chord:', e);
+                document.getElementById('status').innerText = 'Status: Error playing FMSynth chord: ' + e.message;
+            }
+        });
+        
+        // Testing basic Synth chord playback
+        document.getElementById('testSynthChord').addEventListener('click', async function() {
+            await startAudio();
+            document.getElementById('status').innerText = 'Status: Testing basic Synth chord playback...';
+            
+            try {
+                // Create a basic Synth
+                const basicSynth = new Tone.Synth().toDestination();
+                console.log('Basic Synth created:', basicSynth);
+                
+                // Create chord notes
+                const chord = ["C4", "E4", "G4"];
+                console.log('Playing chord with basic Synth:', chord);
+                
+                // Manual polyphony - play each note with a small offset
+                chord.forEach((note, index) => {
+                    const offset = index * 0.01; // 10ms between notes
+                    console.log(`Playing note ${note} with offset ${offset}`);
+                    basicSynth.triggerAttackRelease(note, "1n", Tone.now() + offset);
+                });
+                
+                document.getElementById('status').innerText = 'Status: Basic Synth chord played successfully!';
+            } catch (e) {
+                console.error('Error playing basic Synth chord:', e);
+                document.getElementById('status').innerText = 'Status: Error playing basic Synth chord: ' + e.message;
+            }
+        });
+        
+        // Test with Piano Ambiant settings from porcelain.json
+        document.getElementById('testPianoAmbiantSettings').addEventListener('click', async function() {
+            await startAudio();
+            document.getElementById('status').innerText = 'Status: Testing Piano Ambiant settings...';
+            
+            try {
+                // Create an FMSynth with Piano Ambiant settings
+                const pianoAmbiantSynth = new Tone.FMSynth({
+                    oscillator: {
+                        type: "sine",
+                        harmonicity: 2,
+                        modulationType: "triangle",
+                        modulationIndex: 12
+                    },
+                    envelope: {
+                        attack: 0.1,
+                        decay: 0.3,
+                        sustain: 0.4,
+                        release: 1.2
+                    }
+                }).toDestination();
+                
+                console.log('Piano Ambiant Synth created:', pianoAmbiantSynth);
+                
+                // Use the same chord from porcelain.json
+                const chord = ["Eb4", "Gb4", "Bb4"];
+                console.log('Playing Piano Ambiant chord:', chord);
+                
+                // Manual polyphony - play each note with a small offset
+                chord.forEach((note, index) => {
+                    const offset = index * 0.01; // 10ms between notes
+                    console.log(`Playing note ${note} with offset ${offset}`);
+                    pianoAmbiantSynth.triggerAttackRelease(note, "1n", Tone.now() + offset);
+                });
+                
+                document.getElementById('status').innerText = 'Status: Piano Ambiant chord played successfully!';
+            } catch (e) {
+                console.error('Error playing Piano Ambiant chord:', e);
+                document.getElementById('status').innerText = 'Status: Error playing Piano Ambiant chord: ' + e.message;
+            }
+        });
+    </script>
+</body>
+</html>

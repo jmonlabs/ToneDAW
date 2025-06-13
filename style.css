@@ -276,6 +276,18 @@ select, input[type="number"] {
     mix-blend-mode: normal;
 }
 
+.ruler-progress-line {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: #e74c3c;
+    z-index: 20;
+    pointer-events: none;
+    box-shadow: 0 0 6px rgba(231, 76, 60, 0.6);
+    border-radius: 1px;
+}
+
 .daw-track-container {
     display: flex;
     flex-direction: row;
@@ -528,5 +540,341 @@ select, input[type="number"] {
 
 .help-info small {
     font-size: 12px;
+}
+
+.debug-button {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 0 5px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.debug-button:hover {
+    background: #357abd;
+}
+
+.debug-button:active {
+    background: #2968a3;
+}
+
+/* Custom Scrollbar Styling - Black and Thin */
+/* For webkit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+    border: 1px solid #666;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+*::-webkit-scrollbar-corner {
+    background: #f5f5f5;
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #333 #f5f5f5;
+}
+
+/* Enhanced Timeline Styles */
+.timeline-ruler {
+    position: relative;
+    width: 100%;
+    height: 40px; /* Reduced from 60px to make it thinner */
+    background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+    border-bottom: 2px solid #ddd;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 10;
+    box-sizing: border-box;
+    margin-left: 260px; /* Align with track content */
+}
+
+.timeline-ruler-content {
+    position: relative;
+    height: 100%;
+    min-width: 100%;
+}
+
+.measure-marker {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background: #333;
+    z-index: 3;
+}
+
+.measure-marker::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -0.5px;
+    width: 2px;
+    height: 20px;
+    background: #333;
+}
+
+.measure-label {
+    position: absolute;
+    top: 20px; /* Adjusted for thinner ruler */
+    left: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+.beat-marker {
+    position: absolute;
+    top: 0;
+    height: 50%; /* Reduced from 60% to fit thinner ruler */
+    width: 1px;
+    background: #666;
+    z-index: 2;
+}
+
+.subdivision-marker {
+    position: absolute;
+    top: 0;
+    height: 25%; /* Reduced from 30% to fit thinner ruler */
+    width: 1px;
+    background: #999;
+    z-index: 1;
+}
+
+.tempo-change-marker {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #e74c3c;
+    z-index: 4;
+    cursor: pointer;
+}
+
+.tempo-change-marker::before {
+    content: '♪';
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 14px;
+    color: #e74c3c;
+}
+
+.tempo-change-label {
+    position: absolute;
+    top: 30px; /* Adjusted for thinner ruler */
+    left: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #e74c3c;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1px 3px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.loop-region {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: rgba(52, 152, 219, 0.1);
+    border: 2px solid #3498db;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.loop-region::before {
+    content: 'LOOP';
+    position: absolute;
+    top: 65%; /* Moved further down from 50% */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 9px; /* Made slightly smaller */
+    font-weight: bold;
+    color: #3498db;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1px 4px; /* Reduced padding */
+    border-radius: 2px;
+}
+
+.loop-handle {
+    position: absolute;
+    top: -2px;
+    width: 10px;
+    height: calc(100% + 4px);
+    background: #3498db;
+    cursor: ew-resize;
+    z-index: 5;
+    border-radius: 2px;
+}
+
+.loop-start-handle {
+    left: -5px;
+}
+
+.loop-end-handle {
+    right: -5px;
+}
+
+.loop-handle:hover {
+    background: #2980b9;
+}
+
+.track-loop-indicator {
+    position: absolute;
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        #f39c12 0px,
+        #f39c12 8px,
+        transparent 8px,
+        transparent 16px
+    );
+    border-radius: 2px;
+    z-index: 2;
+    opacity: 0.8;
+}
+
+/* Enhanced Zoom Controls */
+.enhanced-zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+/* Commented out zoom slider - uncomment if needed */
+/*
+.zoom-slider {
+    width: 200px;
+    height: 6px;
+    background: #ddd;
+    border-radius: 3px;
+    outline: none;
+    appearance: none;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #3498db;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.zoom-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #3498db;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+*/
+
+.zoom-level-indicator {
+    font-size: 12px;
+    color: #666;
+    min-width: 60px;
+    text-align: center;
+    background: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.zoom-button.prominent {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.zoom-button.prominent:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.zoom-button.prominent:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Timeline slider enhancements */
+.timeline-slider {
+    flex: 1;
+    height: 8px !important;
+    background: #ddd !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    appearance: none !important;
+    margin: 0 12px;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+    appearance: none !important;
+    width: 20px !important;
+    height: 20px !important;
+    background: #3498db !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    border: 3px solid #fff !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2) !important;
+}
+
+.timeline-slider::-moz-range-thumb {
+    width: 20px !important;
+    height: 20px !important;
+    background: #3498db !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    border: 3px solid #fff !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2) !important;
 }
 
